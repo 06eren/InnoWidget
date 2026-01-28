@@ -1,0 +1,16 @@
+<Window x:Class="InnoWidget.Host.WidgetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ResizeMode="CanResizeWithGrip">
+    <Border x:Name="RootBorder" CornerRadius="14" BorderBrush="{DynamicResource AppBrush.Border}" BorderThickness="1" Padding="10">
+        <Grid MouseLeftButtonDown="Root_MouseLeftButtonDown">
+            <ContentPresenter Content="{Binding}" />
+            <ResizeGrip HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="16" Height="16" />
+        </Grid>
+    </Border>
+</Window>

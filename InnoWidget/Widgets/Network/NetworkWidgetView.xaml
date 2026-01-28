@@ -1,0 +1,48 @@
+<UserControl x:Class="InnoWidget.Widgets.Network.NetworkWidgetView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:InnoWidget.Widgets.Network"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="160" d:DesignWidth="260">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding Title}" Style="{StaticResource AppText.Title}" />
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="44" />
+                <RowDefinition Height="12" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <TextBlock Text="Download" Style="{StaticResource AppText.Label}" />
+                <TextBlock Text="{Binding DownloadText}" Style="{StaticResource AppText.Value}" />
+            </StackPanel>
+
+            <local:MiniLineChart Grid.Row="2"
+                                 Values="{Binding DownloadHistory}"
+                                 Stroke="#B6FF3B"
+                                 StrokeThickness="1.6" />
+
+            <StackPanel Grid.Row="4">
+                <TextBlock Text="Upload" Style="{StaticResource AppText.Label}" />
+                <TextBlock Text="{Binding UploadText}" Style="{StaticResource AppText.Value}" />
+            </StackPanel>
+
+            <local:MiniLineChart Grid.Row="3"
+                                 Values="{Binding UploadHistory}"
+                                 Stroke="#4DD0E1"
+                                 StrokeThickness="1.6" />
+        </Grid>
+    </Grid>
+</UserControl>

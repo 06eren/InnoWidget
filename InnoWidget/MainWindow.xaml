@@ -1,0 +1,117 @@
+﻿<Window x:Class="InnoWidget.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InnoWidget"
+        mc:Ignorable="d"
+        Title="InnoWidget" Height="520" Width="920"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip"
+        Background="{DynamicResource AppBrush.Window}">
+    <Border CornerRadius="14" Background="{DynamicResource AppBrush.Window}" BorderBrush="{DynamicResource AppBrush.Border}" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="{DynamicResource AppBrush.Surface}" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="14,0,0,0">
+                    <TextBlock Text="InnoWidget" Foreground="{DynamicResource AppBrush.TextPrimary}" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="  •  Studio" Foreground="{DynamicResource AppBrush.TextMuted}" FontSize="12" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <Button Style="{StaticResource IconButton}" Margin="0,0,6,0" Click="Minimize_Click">
+                        <materialDesign:PackIcon Kind="WindowMinimize" Width="18" Height="18" />
+                    </Button>
+                    <Button Style="{StaticResource IconButton}" Click="Close_Click">
+                        <materialDesign:PackIcon Kind="Close" Width="18" Height="18" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="14">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="320" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Style="{StaticResource AppCard}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Widget Studio" Style="{StaticResource AppText.Title}" />
+                        <TextBlock Grid.Row="0" Margin="0,18,0,0" Text="Aç/Kapat" Style="{StaticResource AppText.Label}" />
+
+                        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding WidgetToggles}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource AppCard.Compact}" Margin="0,0,0,10">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="8" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Title}" Foreground="{DynamicResource AppBrush.TextPrimary}" />
+                                                    <TextBlock Text="{Binding Id}" Foreground="{DynamicResource AppBrush.TextMuted}" FontSize="11" />
+                                                </StackPanel>
+
+                                                <ToggleButton Grid.Column="1" Width="54" Height="28" IsChecked="{Binding IsOpen, Mode=TwoWay}" />
+
+                                                <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="Opacity" Foreground="{DynamicResource AppBrush.TextMuted}" FontSize="11" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                                    <Slider Minimum="0.2" Maximum="1" Value="{Binding Opacity, Mode=TwoWay}" Width="160" />
+                                                    <TextBlock Text="{Binding Opacity, StringFormat={}{0:0.00}}" Foreground="{DynamicResource AppBrush.TextMuted}" FontSize="11" Margin="8,0,0,0" VerticalAlignment="Center" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource AppCard}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Bilgi" Style="{StaticResource AppText.Title}" />
+
+                        <StackPanel Grid.Row="2">
+                            <TextBlock Text="Widget'lar ayrı Topmost pencereler olarak açılır." Foreground="{DynamicResource AppBrush.TextSecondary}" TextWrapping="Wrap" />
+                            <TextBlock Margin="0,8,0,0" Text="Taşı: widget penceresini sürükle" Foreground="{DynamicResource AppBrush.TextMuted}" />
+                            <TextBlock Text="Resize: sağ-alt köşeden" Foreground="{DynamicResource AppBrush.TextMuted}" />
+                            <TextBlock Margin="0,8,0,0" Text="Çift tık: Topmost aç/kapat" Foreground="{DynamicResource AppBrush.TextMuted}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
