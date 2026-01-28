@@ -95,7 +95,17 @@ namespace InnoWidget
             var toggles = _definitions.Select(def =>
             {
                 var settings = GetOrCreateSettings(def);
-                return new WidgetToggleItemViewModel(def.Id, def.Title, settings.IsOpen, settings.Opacity, isOpen =>
+                var iconUri = def.Id.ToLowerInvariant() switch
+                {
+                    "hardware" => "pack://application:,,,/Assets/Icons/cpu.svg",
+                    "network" => "pack://application:,,,/Assets/Icons/network.svg",
+                    "notes" => "pack://application:,,,/Assets/Icons/note.svg",
+                    "world" => "pack://application:,,,/Assets/Icons/world.svg",
+                    "media" => "pack://application:,,,/Assets/Icons/media.svg",
+                    _ => "pack://application:,,,/Assets/Icons/widget.svg"
+                };
+
+                return new WidgetToggleItemViewModel(def.Id, def.Title, iconUri, settings.IsOpen, settings.Opacity, isOpen =>
                 {
                     settings.IsOpen = isOpen;
                     if (isOpen)

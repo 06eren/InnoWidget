@@ -6,11 +6,14 @@
         Background="Transparent"
         Topmost="True"
         ShowInTaskbar="False"
-        ResizeMode="CanResizeWithGrip">
-    <Border x:Name="RootBorder" CornerRadius="14" BorderBrush="{DynamicResource AppBrush.Border}" BorderThickness="1" Padding="10">
+        ResizeMode="CanResizeWithGrip"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType">
+    <Border x:Name="RootBorder" CornerRadius="14" BorderBrush="{DynamicResource AppBrush.Border}" BorderThickness="1" Padding="12">
         <Grid MouseLeftButtonDown="Root_MouseLeftButtonDown">
             <ContentPresenter Content="{Binding}" />
-            <ResizeGrip HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="16" Height="16" />
+            <ResizeGrip HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="14" Height="14" Opacity="0.55" />
         </Grid>
     </Border>
 </Window>

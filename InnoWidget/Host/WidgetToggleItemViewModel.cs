@@ -11,6 +11,7 @@ public sealed class WidgetToggleItemViewModel : ObservableObject
 
     public string Id { get; }
     public string Title { get; }
+    public string IconUri { get; }
 
     private bool _isOpen;
     public bool IsOpen
@@ -36,10 +37,11 @@ public sealed class WidgetToggleItemViewModel : ObservableObject
         }
     }
 
-    public WidgetToggleItemViewModel(string id, string title, bool isOpen, double opacity, Action<bool> setOpen, Action<double> setOpacity)
+    public WidgetToggleItemViewModel(string id, string title, string iconUri, bool isOpen, double opacity, Action<bool> setOpen, Action<double> setOpacity)
     {
         Id = id;
         Title = title;
+        IconUri = iconUri;
         _isOpen = isOpen;
         _setOpen = setOpen;
         _opacity = opacity;
