@@ -1,0 +1,82 @@
+<UserControl x:Class="InnoWidget.Widgets.Battery.BatteryWidgetView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="160" d:DesignWidth="280">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="24" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <svgc:SvgViewbox Width="20" Height="20" Stretch="Uniform" VerticalAlignment="Center" Source="pack://application:,,,/Assets/Icons/battery.svg" />
+            <TextBlock Grid.Column="2" Text="Pil Durumu" Style="{StaticResource AppText.Title}">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard RepeatBehavior="Forever">
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.85" To="1" Duration="0:0:2.2" AutoReverse="True" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="12" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="12" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="16" Height="16" Stretch="Uniform" VerticalAlignment="Center" Source="pack://application:,,,/Assets/Icons/battery.svg" Margin="0,0,6,0" />
+                    <TextBlock Text="Pil Seviyesi" Style="{StaticResource AppText.Label}" />
+                </StackPanel>
+                <ProgressBar Height="8" Minimum="0" Maximum="100" Value="{Binding BatteryPercent, Mode=OneWay}" Margin="0,6,0,0" />
+                <TextBlock Text="{Binding BatteryPercent, StringFormat={}{0:0}%}" Foreground="{DynamicResource AppBrush.TextPrimary}" FontSize="18" FontWeight="SemiBold" Margin="0,6,0,0">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever">
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.7" To="1" Duration="0:0:1.6" AutoReverse="True" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="16" Height="16" Stretch="Uniform" VerticalAlignment="Center" Source="pack://application:,,,/Assets/Icons/settings.svg" Margin="0,0,6,0" />
+                    <TextBlock Text="Durum" Style="{StaticResource AppText.Label}" />
+                </StackPanel>
+                <TextBlock Text="{Binding BatteryStatus}" Foreground="{DynamicResource AppBrush.TextPrimary}" FontSize="14" FontWeight="SemiBold" Margin="0,6,0,0" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="4">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="16" Height="16" Stretch="Uniform" VerticalAlignment="Center" Source="pack://application:,,,/Assets/Icons/clock.svg" Margin="0,0,6,0" />
+                    <TextBlock Text="Kalan Süre" Style="{StaticResource AppText.Label}" />
+                </StackPanel>
+                <TextBlock Text="{Binding TimeRemaining}" Foreground="{DynamicResource AppBrush.TextPrimary}" FontSize="14" FontWeight="SemiBold" Margin="0,6,0,0" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

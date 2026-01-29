@@ -5,35 +5,257 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="180" d:DesignWidth="280">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="10" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
+             d:DesignHeight="200" d:DesignWidth="360">
+    <Border Background="#E6F3FF" BorderBrush="#87CEEB" BorderThickness="3" CornerRadius="20" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect Color="#87CEEB" BlurRadius="20" ShadowDepth="4" Opacity="0.7" />
+        </Border.Effect>
+        
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="8" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Canvas x:Name="LeavesCanvas" IsHitTestVisible="False" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <svgc:SvgViewbox Width="16" Height="16" Stretch="Uniform" VerticalAlignment="Center" Source="pack://application:,,,/Assets/Icons/note.svg" />
-            <TextBlock Grid.Column="2" Text="{Binding Title}" Style="{StaticResource AppText.Title}" />
+            <!-- Bar Header -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="24" Height="24" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/flower.svg">
+                        <svgc:SvgViewbox.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.7" To="1" Duration="0:0:2" AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </svgc:SvgViewbox.Triggers>
+                    </svgc:SvgViewbox>
+                    <TextBlock Text="GARDEN BAR" FontSize="18" FontWeight="Bold" Foreground="#32CD32" Margin="8,0,0,0" VerticalAlignment="Center">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#32CD32" BlurRadius="4" ShadowDepth="1" />
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text="🌿 BOTANICAL GARDEN 🌿 NATURE BAR 🌿" FontSize="14" Foreground="#32CD32" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#32CD32" BlurRadius="3" ShadowDepth="1" />
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <Button Grid.Column="2" Width="30" Height="30" Background="Transparent" BorderThickness="0" Padding="0"
+                        ToolTip="Ayarlar">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent" Padding="4">
+                                <svgc:SvgViewbox Width="16" Height="16" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/settings.svg" />
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <!-- Notes Input Area -->
+            <Grid Grid.Row="2">
+                <Border Background="#FFFFFF" BorderBrush="#87CEEB" BorderThickness="2" CornerRadius="10" Padding="10">
+                    <Border.Effect>
+                        <DropShadowEffect Color="#87CEEB" BlurRadius="5" ShadowDepth="1" Opacity="0.3" />
+                    </Border.Effect>
+                    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Text="📝 Notunuz:" FontSize="14" FontWeight="Bold" Foreground="#32CD32" Margin="0,0,0,5" />
+                        
+                        <TextBox Grid.Row="1" 
+                                 Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" 
+                                 Background="Transparent" 
+                                 BorderThickness="0" 
+                                 FontSize="12" 
+                                 Foreground="#2C3E50"
+                                 TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Auto"
+                                 AcceptsReturn="True"
+                                 MinHeight="60"
+                                 MaxHeight="120">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="5">
+                                        <ScrollViewer x:Name="PART_ContentHost" />
+                                    </Border>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Garden Status -->
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="20" Height="20" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/garden.svg" />
+                    <TextBlock Text="GARDEN" Foreground="#32CD32" FontWeight="Bold" Margin="6,0,0,0" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text="🌺 TROPICAL PARADISE 🌺 EXOTIC FLOWERS 🌺" FontSize="12" Foreground="#32CD32" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#32CD32" BlurRadius="6" ShadowDepth="2" />
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <TextBlock Grid.Column="2" Text="LUSH" Foreground="#FF1493" FontWeight="Bold" FontSize="14" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF1493" BlurRadius="4" ShadowDepth="1" />
+                    </TextBlock.Effect>
+                </TextBlock>
+            </Grid>
+
+            <!-- Leaves Status -->
+            <Grid Grid.Row="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="20" Height="20" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/leaf.svg" />
+                    <TextBlock Text="LEAVES" Foreground="#32CD32" FontWeight="Bold" Margin="6,0,0,0" />
+                </StackPanel>
+
+                <Border Grid.Column="1" Background="#2A2A2A" CornerRadius="4" Height="20" Margin="8,0">
+                    <ProgressBar Minimum="0" Maximum="100" Value="75" 
+                                 Background="Transparent" Foreground="#FF6B35" BorderThickness="0">
+                        <ProgressBar.Effect>
+                            <DropShadowEffect Color="#FF6B35" BlurRadius="4" ShadowDepth="1" />
+                        </ProgressBar.Effect>
+                    </ProgressBar>
+                </Border>
+
+                <TextBlock Grid.Column="2" Text="75%" Foreground="#FF6B35" FontWeight="Bold" FontSize="16" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF6B35" BlurRadius="4" ShadowDepth="1" />
+                    </TextBlock.Effect>
+                </TextBlock>
+            </Grid>
+
+            <!-- Nature Status -->
+            <Grid Grid.Row="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="20" Height="20" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/cocktail.svg">
+                        <svgc:SvgViewbox.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:4" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </svgc:SvgViewbox.Triggers>
+                        <svgc:SvgViewbox.RenderTransform>
+                            <RotateTransform CenterX="10" CenterY="10" />
+                        </svgc:SvgViewbox.RenderTransform>
+                    </svgc:SvgViewbox>
+                    <TextBlock Text="NATURE" Foreground="#32CD32" FontWeight="Bold" Margin="6,0,0,0" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text="🍃 FRESH AIR 🍃 PURE OXYGEN 🍃" FontSize="12" Foreground="#32CD32" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#32CD32" BlurRadius="6" ShadowDepth="2" />
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <TextBlock Grid.Column="2" Text="FRESH" Foreground="#FF1493" FontWeight="Bold" FontSize="14" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF1493" BlurRadius="4" ShadowDepth="1" />
+                    </TextBlock.Effect>
+                </TextBlock>
+            </Grid>
+
+            <!-- Zen Status -->
+            <Grid Grid.Row="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="20" Height="20" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/drink.svg">
+                        <svgc:SvgViewbox.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.5" To="1" Duration="0:0:1.2" AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </svgc:SvgViewbox.Triggers>
+                    </svgc:SvgViewbox>
+                    <TextBlock Text="ZEN" Foreground="#32CD32" FontWeight="Bold" Margin="6,0,0,0" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text="🧘 MEDITATION ZONE 🧘 PEACEFUL MIND 🧘" FontSize="12" Foreground="#FF1493" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF1493" BlurRadius="6" ShadowDepth="2" />
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <TextBlock Grid.Column="2" Text="🕉️" Foreground="#FF1493" FontWeight="Bold" FontSize="16" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever">
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.6" To="1" Duration="0:0:0.9" AutoReverse="True" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+            </Grid>
+            </Grid>
         </Grid>
-
-        <TextBox Grid.Row="2"
-                 Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
-                 Background="Transparent"
-                 Foreground="{DynamicResource AppBrush.TextPrimary}"
-                 BorderThickness="0"
-                 AcceptsReturn="True"
-                 TextWrapping="Wrap"
-                 VerticalScrollBarVisibility="Auto"
-                 IsReadOnly="True"
-                 PreviewMouseDown="TextBox_PreviewMouseDown"
-                 LostKeyboardFocus="TextBox_LostKeyboardFocus" />
-    </Grid>
+    </Border>
 </UserControl>

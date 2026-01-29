@@ -33,6 +33,12 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <Button Style="{StaticResource IconButton}" Margin="0,0,6,0" Click="BackgroundMode_Click" ToolTip="Arkaplan Modu">
+                        <materialDesign:PackIcon Kind="Application" Width="18" Height="18" />
+                    </Button>
+                    <Button Style="{StaticResource IconButton}" Margin="0,0,6,0" Click="Settings_Click" ToolTip="Widget Ayarları">
+                        <materialDesign:PackIcon Kind="Cog" Width="18" Height="18" />
+                    </Button>
                     <Button Style="{StaticResource IconButton}" Margin="0,0,6,0" Click="Minimize_Click">
                         <materialDesign:PackIcon Kind="WindowMinimize" Width="18" Height="18" />
                     </Button>

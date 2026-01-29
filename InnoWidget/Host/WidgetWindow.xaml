@@ -4,13 +4,16 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        Topmost="True"
+        Topmost="False"
         ShowInTaskbar="False"
         ResizeMode="CanResizeWithGrip"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         TextOptions.TextRenderingMode="ClearType">
     <Border x:Name="RootBorder" CornerRadius="14" BorderBrush="{DynamicResource AppBrush.Border}" BorderThickness="1" Padding="12">
+        <Border.Background>
+            <SolidColorBrush Color="#0D0D0D" Opacity="0.85" />
+        </Border.Background>
         <Grid MouseLeftButtonDown="Root_MouseLeftButtonDown">
             <ContentPresenter Content="{Binding}" />
             <ResizeGrip HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="14" Height="14" Opacity="0.55" />

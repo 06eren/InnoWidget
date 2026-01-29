@@ -1,0 +1,118 @@
+<UserControl x:Class="InnoWidget.Widgets.Crystal.CrystalWidgetSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Border Background="#F0E6FF" BorderBrush="#E6E6FA" BorderThickness="2" CornerRadius="15" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect Color="#E6E6FA" BlurRadius="10" ShadowDepth="2" Opacity="0.3" />
+        </Border.Effect>
+        
+        <StackPanel>
+            <TextBlock Text="💎 CRYSTAL SETTINGS 💎" FontSize="18" FontWeight="Bold" Foreground="#E6E6FA" 
+                       HorizontalAlignment="Center" Margin="0,0,0,20">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="#E6E6FA" BlurRadius="6" ShadowDepth="1" />
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <!-- Animation Settings -->
+            <GroupBox Header="🎨 Animation Settings" Margin="0,0,0,15" Foreground="#E6E6FA" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <CheckBox Content="Enable Animations" IsChecked="{Binding AnimationsEnabled}" 
+                              Foreground="#E6E6FA" Margin="0,5" />
+                    <CheckBox Content="Pulse Effects" IsChecked="{Binding PulseEnabled}" 
+                              Foreground="#E6E6FA" Margin="0,5" />
+                    <CheckBox Content="Rotate Effects" IsChecked="{Binding RotateEnabled}" 
+                              Foreground="#E6E6FA" Margin="0,5" />
+                    <CheckBox Content="Glow Effects" IsChecked="{Binding GlowEnabled}" 
+                              Foreground="#E6E6FA" Margin="0,5" />
+                    <CheckBox Content="Shine Effects" IsChecked="{Binding ShineEnabled}" 
+                              Foreground="#E6E6FA" Margin="0,5" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Speed Settings -->
+            <GroupBox Header="⚡ Speed Settings" Margin="0,0,0,15" Foreground="#E6E6FA" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Animation Speed:" Foreground="#E6E6FA" Margin="0,5" />
+                    <Slider Minimum="0.1" Maximum="3.0" Value="{Binding AnimationSpeed}" 
+                            TickFrequency="0.1" IsSnapToTickEnabled="True" 
+                            Foreground="#E6E6FA" Margin="0,5" />
+                    <TextBlock Text="{Binding AnimationSpeed, StringFormat={}{0:F1}x}" 
+                               Foreground="#E6E6FA" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Crystal Settings -->
+            <GroupBox Header="💎 Crystal Settings" Margin="0,0,0,15" Foreground="#E6E6FA" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Crystal Density:" Foreground="#E6E6FA" Margin="0,5" />
+                    <Slider Minimum="1" Maximum="10" Value="{Binding CrystalDensity}" 
+                            TickFrequency="1" IsSnapToTickEnabled="True" 
+                            Foreground="#E6E6FA" Margin="0,5" />
+                    <TextBlock Text="{Binding CrystalDensity}" 
+                               Foreground="#E6E6FA" HorizontalAlignment="Center" />
+                    
+                    <TextBlock Text="Vibration Frequency:" Foreground="#E6E6FA" Margin="0,10,0,5" />
+                    <Slider Minimum="100" Maximum="1000" Value="{Binding VibrationFrequency}" 
+                            TickFrequency="50" IsSnapToTickEnabled="True" 
+                            Foreground="#E6E6FA" Margin="0,5" />
+                    <TextBlock Text="{Binding VibrationFrequency, StringFormat={}{0}Hz}" 
+                               Foreground="#E6E6FA" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Energy Settings -->
+            <GroupBox Header="✨ Energy Settings" Margin="0,0,0,15" Foreground="#E6E6FA" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Max Energy Level:" Foreground="#E6E6FA" Margin="0,5" />
+                    <Slider Minimum="50" Maximum="100" Value="{Binding MaxEnergyLevel}" 
+                            TickFrequency="5" IsSnapToTickEnabled="True" 
+                            Foreground="#E6E6FA" Margin="0,5" />
+                    <TextBlock Text="{Binding MaxEnergyLevel, StringFormat={}{0}%}" 
+                               Foreground="#E6E6FA" HorizontalAlignment="Center" />
+                    
+                    <TextBlock Text="Healing Threshold:" Foreground="#E6E6FA" Margin="0,10,0,5" />
+                    <Slider Minimum="70" Maximum="95" Value="{Binding HealingThreshold}" 
+                            TickFrequency="5" IsSnapToTickEnabled="True" 
+                            Foreground="#E6E6FA" Margin="0,5" />
+                    <TextBlock Text="{Binding HealingThreshold, StringFormat={}{0}%}" 
+                               Foreground="#E6E6FA" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Visual Settings -->
+            <GroupBox Header="🎨 Visual Settings" Margin="0,0,0,15" Foreground="#E6E6FA" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Crystal Theme:" Foreground="#E6E6FA" Margin="0,5" />
+                    <ComboBox SelectedIndex="{Binding SelectedTheme}" Foreground="#E6E6FA" Margin="0,5">
+                        <ComboBoxItem Content="Lavender" />
+                        <ComboBoxItem Content="Rose Quartz" />
+                        <ComboBoxItem Content="Amethyst" />
+                        <ComboBoxItem Content="Clear Quartz" />
+                    </ComboBox>
+                    
+                    <TextBlock Text="Border Style:" Foreground="#E6E6FA" Margin="0,10,0,5" />
+                    <ComboBox SelectedIndex="{Binding BorderStyle}" Foreground="#E6E6FA" Margin="0,5">
+                        <ComboBoxItem Content="Elegant" />
+                        <ComboBoxItem Content="Mystical" />
+                        <ComboBoxItem Content="Sacred" />
+                        <ComboBoxItem Content="Magical" />
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Reset Button -->
+            <Button Content="🔄 Reset to Default" Background="#E6E6FA" Foreground="#4B0082" 
+                    FontWeight="Bold" Padding="15,8" Margin="0,10,0,0"
+                    Command="{Binding ResetToDefaultCommand}">
+                <Button.Effect>
+                    <DropShadowEffect Color="#E6E6FA" BlurRadius="5" ShadowDepth="1" />
+                </Button.Effect>
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -1,0 +1,118 @@
+<UserControl x:Class="InnoWidget.Widgets.Volcano.VolcanoWidgetSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Border Background="#2F1F14" BorderBrush="#FF4500" BorderThickness="2" CornerRadius="15" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect Color="#FF4500" BlurRadius="10" ShadowDepth="2" Opacity="0.3" />
+        </Border.Effect>
+        
+        <StackPanel>
+            <TextBlock Text="🌋 VOLCANO SETTINGS 🌋" FontSize="18" FontWeight="Bold" Foreground="#FF4500" 
+                       HorizontalAlignment="Center" Margin="0,0,0,20">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="#FF4500" BlurRadius="6" ShadowDepth="1" />
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <!-- Animation Settings -->
+            <GroupBox Header="🎨 Animation Settings" Margin="0,0,0,15" Foreground="#FF4500" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <CheckBox Content="Enable Animations" IsChecked="{Binding AnimationsEnabled}" 
+                              Foreground="#FF4500" Margin="0,5" />
+                    <CheckBox Content="Pulse Effects" IsChecked="{Binding PulseEnabled}" 
+                              Foreground="#FF4500" Margin="0,5" />
+                    <CheckBox Content="Rotate Effects" IsChecked="{Binding RotateEnabled}" 
+                              Foreground="#FF4500" Margin="0,5" />
+                    <CheckBox Content="Glow Effects" IsChecked="{Binding GlowEnabled}" 
+                              Foreground="#FF4500" Margin="0,5" />
+                    <CheckBox Content="Lava Particles" IsChecked="{Binding LavaParticlesEnabled}" 
+                              Foreground="#FF4500" Margin="0,5" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Speed Settings -->
+            <GroupBox Header="⚡ Speed Settings" Margin="0,0,0,15" Foreground="#FF4500" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Animation Speed:" Foreground="#FF4500" Margin="0,5" />
+                    <Slider Minimum="0.1" Maximum="3.0" Value="{Binding AnimationSpeed}" 
+                            TickFrequency="0.1" IsSnapToTickEnabled="True" 
+                            Foreground="#FF4500" Margin="0,5" />
+                    <TextBlock Text="{Binding AnimationSpeed, StringFormat={}{0:F1}x}" 
+                               Foreground="#FF4500" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Volcano Settings -->
+            <GroupBox Header="🌋 Volcano Settings" Margin="0,0,0,15" Foreground="#FF4500" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Eruption Frequency:" Foreground="#FF4500" Margin="0,5" />
+                    <Slider Minimum="1" Maximum="10" Value="{Binding EruptionFrequency}" 
+                            TickFrequency="1" IsSnapToTickEnabled="True" 
+                            Foreground="#FF4500" Margin="0,5" />
+                    <TextBlock Text="{Binding EruptionFrequency}" 
+                               Foreground="#FF4500" HorizontalAlignment="Center" />
+                    
+                    <TextBlock Text="Lava Density:" Foreground="#FF4500" Margin="0,10,0,5" />
+                    <Slider Minimum="1" Maximum="10" Value="{Binding LavaDensity}" 
+                            TickFrequency="1" IsSnapToTickEnabled="True" 
+                            Foreground="#FF4500" Margin="0,5" />
+                    <TextBlock Text="{Binding LavaDensity}" 
+                               Foreground="#FF4500" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Temperature Settings -->
+            <GroupBox Header="🌡️ Temperature Settings" Margin="0,0,0,15" Foreground="#FF4500" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Max Temperature (°C):" Foreground="#FF4500" Margin="0,5" />
+                    <Slider Minimum="500" Maximum="2000" Value="{Binding MaxTemperature}" 
+                            TickFrequency="100" IsSnapToTickEnabled="True" 
+                            Foreground="#FF4500" Margin="0,5" />
+                    <TextBlock Text="{Binding MaxTemperature, StringFormat={}{0}°C}" 
+                               Foreground="#FF4500" HorizontalAlignment="Center" />
+                    
+                    <TextBlock Text="Alert Threshold (°C):" Foreground="#FF4500" Margin="0,10,0,5" />
+                    <Slider Minimum="1000" Maximum="1800" Value="{Binding AlertThreshold}" 
+                            TickFrequency="100" IsSnapToTickEnabled="True" 
+                            Foreground="#FF4500" Margin="0,5" />
+                    <TextBlock Text="{Binding AlertThreshold, StringFormat={}{0}°C}" 
+                               Foreground="#FF4500" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Visual Settings -->
+            <GroupBox Header="🎨 Visual Settings" Margin="0,0,0,15" Foreground="#FF4500" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Volcano Theme:" Foreground="#FF4500" Margin="0,5" />
+                    <ComboBox SelectedIndex="{Binding SelectedTheme}" Foreground="#FF4500" Margin="0,5">
+                        <ComboBoxItem Content="Classic Red" />
+                        <ComboBoxItem Content="Orange Fire" />
+                        <ComboBoxItem Content="Dark Magma" />
+                        <ComboBoxItem Content="Lava Flow" />
+                    </ComboBox>
+                    
+                    <TextBlock Text="Border Style:" Foreground="#FF4500" Margin="0,10,0,5" />
+                    <ComboBox SelectedIndex="{Binding BorderStyle}" Foreground="#FF4500" Margin="0,5">
+                        <ComboBoxItem Content="Sharp" />
+                        <ComboBoxItem Content="Rounded" />
+                        <ComboBoxItem Content="Cracked" />
+                        <ComboBoxItem Content="Molten" />
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Reset Button -->
+            <Button Content="🔄 Reset to Default" Background="#FF4500" Foreground="White" 
+                    FontWeight="Bold" Padding="15,8" Margin="0,10,0,0"
+                    Command="{Binding ResetToDefaultCommand}">
+                <Button.Effect>
+                    <DropShadowEffect Color="#FF4500" BlurRadius="5" ShadowDepth="1" />
+                </Button.Effect>
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>

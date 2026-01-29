@@ -1,0 +1,116 @@
+<UserControl x:Class="InnoWidget.Widgets.Hardware.HardwareWidgetSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Border Background="#FFF0F5" BorderBrush="#FFB7C5" BorderThickness="2" CornerRadius="15" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect Color="#FFB7C5" BlurRadius="10" ShadowDepth="2" Opacity="0.3" />
+        </Border.Effect>
+        
+        <StackPanel>
+            <TextBlock Text="🌸 SAKURA SETTINGS 🌸" FontSize="18" FontWeight="Bold" Foreground="#FF69B4" 
+                       HorizontalAlignment="Center" Margin="0,0,0,20">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="#FFB7C5" BlurRadius="6" ShadowDepth="1" />
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <!-- Animation Settings -->
+            <GroupBox Header="🎨 Animation Settings" Margin="0,0,0,15" Foreground="#FF69B4" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <CheckBox Content="Enable Animations" IsChecked="{Binding AnimationsEnabled}" 
+                              Foreground="#FF69B4" Margin="0,5" />
+                    <CheckBox Content="Pulse Effects" IsChecked="{Binding PulseEnabled}" 
+                              Foreground="#FF69B4" Margin="0,5" />
+                    <CheckBox Content="Rotate Effects" IsChecked="{Binding RotateEnabled}" 
+                              Foreground="#FF69B4" Margin="0,5" />
+                    <CheckBox Content="Glow Effects" IsChecked="{Binding GlowEnabled}" 
+                              Foreground="#FF69B4" Margin="0,5" />
+                    <CheckBox Content="Sakura Petals" IsChecked="{Binding SakuraEnabled}" 
+                              Foreground="#FF69B4" Margin="0,5" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Speed Settings -->
+            <GroupBox Header="⚡ Speed Settings" Margin="0,0,0,15" Foreground="#FF69B4" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Animation Speed:" Foreground="#FF69B4" Margin="0,5" />
+                    <Slider Minimum="0.1" Maximum="3.0" Value="{Binding AnimationSpeed}" 
+                            TickFrequency="0.1" IsSnapToTickEnabled="True" 
+                            Foreground="#FF69B4" Margin="0,5" />
+                    <TextBlock Text="{Binding AnimationSpeed, StringFormat={}{0:F1}x}" 
+                               Foreground="#FF69B4" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Sakura Settings -->
+            <GroupBox Header="🌸 Sakura Settings" Margin="0,0,0,15" Foreground="#FF69B4" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Petal Density:" Foreground="#FF69B4" Margin="0,5" />
+                    <Slider Minimum="1" Maximum="10" Value="{Binding PetalDensity}" 
+                            TickFrequency="1" IsSnapToTickEnabled="True" 
+                            Foreground="#FF69B4" Margin="0,5" />
+                    <TextBlock Text="{Binding PetalDensity}" 
+                               Foreground="#FF69B4" HorizontalAlignment="Center" />
+                    
+                    <TextBlock Text="Petal Speed:" Foreground="#FF69B4" Margin="0,10,0,5" />
+                    <Slider Minimum="0.5" Maximum="5.0" Value="{Binding PetalSpeed}" 
+                            TickFrequency="0.5" IsSnapToTickEnabled="True" 
+                            Foreground="#FF69B4" Margin="0,5" />
+                    <TextBlock Text="{Binding PetalSpeed, StringFormat={}{0:F1}x}" 
+                               Foreground="#FF69B4" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Performance Settings -->
+            <GroupBox Header="🚀 Performance Settings" Margin="0,0,0,15" Foreground="#FF69B4" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Update Interval (ms):" Foreground="#FF69B4" Margin="0,5" />
+                    <Slider Minimum="500" Maximum="5000" Value="{Binding UpdateInterval}" 
+                            TickFrequency="500" IsSnapToTickEnabled="True" 
+                            Foreground="#FF69B4" Margin="0,5" />
+                    <TextBlock Text="{Binding UpdateInterval, StringFormat={}{0} ms}" 
+                               Foreground="#FF69B4" HorizontalAlignment="Center" />
+                    
+                    <CheckBox Content="High Performance Mode" IsChecked="{Binding HighPerformanceMode}" 
+                              Foreground="#FF69B4" Margin="0,10,0,5" />
+                    <CheckBox Content="Native Optimization" IsChecked="{Binding NativeOptimization}" 
+                              Foreground="#FF69B4" Margin="0,5" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Visual Settings -->
+            <GroupBox Header="🎨 Visual Settings" Margin="0,0,0,15" Foreground="#FF69B4" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Theme Color:" Foreground="#FF69B4" Margin="0,5" />
+                    <ComboBox SelectedIndex="{Binding SelectedTheme}" Foreground="#FF69B4" Margin="0,5">
+                        <ComboBoxItem Content="Sakura Pink" />
+                        <ComboBoxItem Content="Cherry Blossom" />
+                        <ComboBoxItem Content="Zen Purple" />
+                        <ComboBoxItem Content="Garden Green" />
+                    </ComboBox>
+                    
+                    <TextBlock Text="Border Style:" Foreground="#FF69B4" Margin="0,10,0,5" />
+                    <ComboBox SelectedIndex="{Binding BorderStyle}" Foreground="#FF69B4" Margin="0,5">
+                        <ComboBoxItem Content="Rounded" />
+                        <ComboBoxItem Content="Sharp" />
+                        <ComboBoxItem Content="Neon" />
+                        <ComboBoxItem Content="Gradient" />
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Reset Button -->
+            <Button Content="🔄 Reset to Default" Background="#FF69B4" Foreground="White" 
+                    FontWeight="Bold" Padding="15,8" Margin="0,10,0,0"
+                    Command="{Binding ResetToDefaultCommand}">
+                <Button.Effect>
+                    <DropShadowEffect Color="#FF69B4" BlurRadius="5" ShadowDepth="1" />
+                </Button.Effect>
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -1,0 +1,118 @@
+<UserControl x:Class="InnoWidget.Widgets.Ice.IceWidgetSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Border Background="#E6F7FF" BorderBrush="#00CED1" BorderThickness="2" CornerRadius="15" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect Color="#00CED1" BlurRadius="10" ShadowDepth="2" Opacity="0.3" />
+        </Border.Effect>
+        
+        <StackPanel>
+            <TextBlock Text="❄️ ICE SETTINGS ❄️" FontSize="18" FontWeight="Bold" Foreground="#00CED1" 
+                       HorizontalAlignment="Center" Margin="0,0,0,20">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="#00CED1" BlurRadius="6" ShadowDepth="1" />
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <!-- Animation Settings -->
+            <GroupBox Header="🎨 Animation Settings" Margin="0,0,0,15" Foreground="#00CED1" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <CheckBox Content="Enable Animations" IsChecked="{Binding AnimationsEnabled}" 
+                              Foreground="#00CED1" Margin="0,5" />
+                    <CheckBox Content="Pulse Effects" IsChecked="{Binding PulseEnabled}" 
+                              Foreground="#00CED1" Margin="0,5" />
+                    <CheckBox Content="Rotate Effects" IsChecked="{Binding RotateEnabled}" 
+                              Foreground="#00CED1" Margin="0,5" />
+                    <CheckBox Content="Glow Effects" IsChecked="{Binding GlowEnabled}" 
+                              Foreground="#00CED1" Margin="0,5" />
+                    <CheckBox Content="Snow Particles" IsChecked="{Binding SnowParticlesEnabled}" 
+                              Foreground="#00CED1" Margin="0,5" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Speed Settings -->
+            <GroupBox Header="⚡ Speed Settings" Margin="0,0,0,15" Foreground="#00CED1" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Animation Speed:" Foreground="#00CED1" Margin="0,5" />
+                    <Slider Minimum="0.1" Maximum="3.0" Value="{Binding AnimationSpeed}" 
+                            TickFrequency="0.1" IsSnapToTickEnabled="True" 
+                            Foreground="#00CED1" Margin="0,5" />
+                    <TextBlock Text="{Binding AnimationSpeed, StringFormat={}{0:F1}x}" 
+                               Foreground="#00CED1" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Ice Settings -->
+            <GroupBox Header="❄️ Ice Settings" Margin="0,0,0,15" Foreground="#00CED1" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Snow Density:" Foreground="#00CED1" Margin="0,5" />
+                    <Slider Minimum="1" Maximum="10" Value="{Binding SnowDensity}" 
+                            TickFrequency="1" IsSnapToTickEnabled="True" 
+                            Foreground="#00CED1" Margin="0,5" />
+                    <TextBlock Text="{Binding SnowDensity}" 
+                               Foreground="#00CED1" HorizontalAlignment="Center" />
+                    
+                    <TextBlock Text="Snow Speed:" Foreground="#00CED1" Margin="0,10,0,5" />
+                    <Slider Minimum="0.5" Maximum="5.0" Value="{Binding SnowSpeed}" 
+                            TickFrequency="0.5" IsSnapToTickEnabled="True" 
+                            Foreground="#00CED1" Margin="0,5" />
+                    <TextBlock Text="{Binding SnowSpeed, StringFormat={}{0:F1}x}" 
+                               Foreground="#00CED1" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Temperature Settings -->
+            <GroupBox Header="🌡️ Temperature Settings" Margin="0,0,0,15" Foreground="#00CED1" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Min Temperature (°C):" Foreground="#00CED1" Margin="0,5" />
+                    <Slider Minimum="-50" Maximum="10" Value="{Binding MinTemperature}" 
+                            TickFrequency="5" IsSnapToTickEnabled="True" 
+                            Foreground="#00CED1" Margin="0,5" />
+                    <TextBlock Text="{Binding MinTemperature, StringFormat={}{0}°C}" 
+                               Foreground="#00CED1" HorizontalAlignment="Center" />
+                    
+                    <TextBlock Text="Freezing Point (°C):" Foreground="#00CED1" Margin="0,10,0,5" />
+                    <Slider Minimum="-20" Maximum="5" Value="{Binding FreezingPoint}" 
+                            TickFrequency="1" IsSnapToTickEnabled="True" 
+                            Foreground="#00CED1" Margin="0,5" />
+                    <TextBlock Text="{Binding FreezingPoint, StringFormat={}{0}°C}" 
+                               Foreground="#00CED1" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Visual Settings -->
+            <GroupBox Header="🎨 Visual Settings" Margin="0,0,0,15" Foreground="#00CED1" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Ice Theme:" Foreground="#00CED1" Margin="0,5" />
+                    <ComboBox SelectedIndex="{Binding SelectedTheme}" Foreground="#00CED1" Margin="0,5">
+                        <ComboBoxItem Content="Arctic Blue" />
+                        <ComboBoxItem Content="Sky Blue" />
+                        <ComboBoxItem Content="Crystal White" />
+                        <ComboBoxItem Content="Frozen Lake" />
+                    </ComboBox>
+                    
+                    <TextBlock Text="Border Style:" Foreground="#00CED1" Margin="0,10,0,5" />
+                    <ComboBox SelectedIndex="{Binding BorderStyle}" Foreground="#00CED1" Margin="0,5">
+                        <ComboBoxItem Content="Sharp" />
+                        <ComboBoxItem Content="Rounded" />
+                        <ComboBoxItem Content="Icy" />
+                        <ComboBoxItem Content="Frosty" />
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Reset Button -->
+            <Button Content="🔄 Reset to Default" Background="#00CED1" Foreground="White" 
+                    FontWeight="Bold" Padding="15,8" Margin="0,10,0,0"
+                    Command="{Binding ResetToDefaultCommand}">
+                <Button.Effect>
+                    <DropShadowEffect Color="#00CED1" BlurRadius="5" ShadowDepth="1" />
+                </Button.Effect>
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>

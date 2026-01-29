@@ -5,42 +5,235 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="180" d:DesignWidth="560">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="10" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
+             d:DesignHeight="200" d:DesignWidth="360">
+    <Border Background="#000033" BorderBrush="#9400D3" BorderThickness="3" CornerRadius="20" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect Color="#9400D3" BlurRadius="20" ShadowDepth="4" Opacity="0.7" />
+        </Border.Effect>
+        
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="8" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="15" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="15" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="15" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="15" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-            <svgc:SvgViewbox Width="16" Height="16" Stretch="Uniform" VerticalAlignment="Center" Source="pack://application:,,,/Assets/Icons/world.svg" />
-            <TextBlock Grid.Column="2" Text="{Binding Title}" Style="{StaticResource AppText.Title}" />
+            <!-- Bar Header -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="24" Height="24" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/world.svg">
+                        <svgc:SvgViewbox.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.7" To="1" Duration="0:0:2" AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </svgc:SvgViewbox.Triggers>
+                    </svgc:SvgViewbox>
+                    <TextBlock Text="WORLD BAR" FontSize="18" FontWeight="Bold" Foreground="#FF69B4" Margin="8,0,0,0" VerticalAlignment="Center">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#FF69B4" BlurRadius="4" ShadowDepth="1" />
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text=" GLOBAL TIME ZONES " FontSize="14" Foreground="#FF69B4" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF69B4" BlurRadius="3" ShadowDepth="1" />
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <Button Grid.Column="2" Width="30" Height="30" Background="Transparent" BorderThickness="0" Padding="0"
+                        Command="{Binding ToggleSettingsCommand}" ToolTip="Ayarlar">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent" Padding="4">
+                                <svgc:SvgViewbox Width="16" Height="16" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/settings.svg" />
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <!-- Istanbul Time Zone -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="20" Height="20" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/world.svg" />
+                    <TextBlock Text="IST" Foreground="#FF69B4" FontWeight="Bold" Margin="6,0,0,0" />
+                </StackPanel>
+
+                <Border Grid.Column="1" Background="#2A2A2A" CornerRadius="4" Height="20" Margin="8,0">
+                    <ProgressBar Minimum="0" Maximum="100" Value="75" 
+                                 Background="Transparent" Foreground="#FF69B4" BorderThickness="0">
+                        <ProgressBar.Effect>
+                            <DropShadowEffect Color="#FF69B4" BlurRadius="4" ShadowDepth="1" />
+                        </ProgressBar.Effect>
+                    </ProgressBar>
+                </Border>
+
+                <TextBlock Grid.Column="2" Text="21:30" Foreground="#FF69B4" FontWeight="Bold" FontSize="16" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF69B4" BlurRadius="4" ShadowDepth="1" />
+                    </TextBlock.Effect>
+                </TextBlock>
+            </Grid>
+
+            <!-- New York Time Zone -->
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="20" Height="20" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/world.svg" />
+                    <TextBlock Text="NYC" Foreground="#FF69B4" FontWeight="Bold" Margin="6,0,0,0" />
+                </StackPanel>
+
+                <Border Grid.Column="1" Background="#2A2A2A" CornerRadius="4" Height="20" Margin="8,0">
+                    <ProgressBar Minimum="0" Maximum="100" Value="45" 
+                                 Background="Transparent" Foreground="#FF6B35" BorderThickness="0">
+                        <ProgressBar.Effect>
+                            <DropShadowEffect Color="#FF6B35" BlurRadius="4" ShadowDepth="1" />
+                        </ProgressBar.Effect>
+                    </ProgressBar>
+                </Border>
+
+                <TextBlock Grid.Column="2" Text="14:30" Foreground="#FF6B35" FontWeight="Bold" FontSize="16" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF6B35" BlurRadius="4" ShadowDepth="1" />
+                    </TextBlock.Effect>
+                </TextBlock>
+            </Grid>
+
+            <!-- Tokyo Time Zone -->
+            <Grid Grid.Row="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="20" Height="20" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/world.svg" />
+                    <TextBlock Text="TOKYO" Foreground="#FF69B4" FontWeight="Bold" Margin="6,0,0,0" />
+                </StackPanel>
+
+                <Border Grid.Column="1" Background="#2A2A2A" CornerRadius="4" Height="20" Margin="8,0">
+                    <ProgressBar Minimum="0" Maximum="100" Value="60" 
+                                 Background="Transparent" Foreground="#FFD700" BorderThickness="0">
+                        <ProgressBar.Effect>
+                            <DropShadowEffect Color="#FFD700" BlurRadius="4" ShadowDepth="1" />
+                        </ProgressBar.Effect>
+                    </ProgressBar>
+                </Border>
+
+                <TextBlock Grid.Column="2" Text="05:30" Foreground="#FFD700" FontWeight="Bold" FontSize="16" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FFD700" BlurRadius="4" ShadowDepth="1" />
+                    </TextBlock.Effect>
+                </TextBlock>
+            </Grid>
+
+            <!-- Weather Status -->
+            <Grid Grid.Row="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="20" Height="20" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/cloud.svg" />
+                    <TextBlock Text="WEATHER" Foreground="#FF69B4" FontWeight="Bold" Margin="6,0,0,0" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text=" SUNNY WEATHER  PERFECT DAY " FontSize="12" Foreground="#FF69B4" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF69B4" BlurRadius="6" ShadowDepth="2" />
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <TextBlock Grid.Column="2" Text="25°C" Foreground="#FFD700" FontWeight="Bold" FontSize="14" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FFD700" BlurRadius="4" ShadowDepth="1" />
+                    </TextBlock.Effect>
+                </TextBlock>
+            </Grid>
+
+            <!-- Party Status -->
+            <Grid Grid.Row="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <svgc:SvgViewbox Width="20" Height="20" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/cocktail.svg">
+                        <svgc:SvgViewbox.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </svgc:SvgViewbox.Triggers>
+                        <svgc:SvgViewbox.RenderTransform>
+                            <RotateTransform CenterX="10" CenterY="10" />
+                        </svgc:SvgViewbox.RenderTransform>
+                    </svgc:SvgViewbox>
+                    <TextBlock Text="PARTY" Foreground="#FF69B4" FontWeight="Bold" Margin="6,0,0,0" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text=" PARTY TIME  CLUB OPEN " FontSize="12" Foreground="#FF1493" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF1493" BlurRadius="6" ShadowDepth="2" />
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <TextBlock Grid.Column="2" Text="" Foreground="#FF1493" FontWeight="Bold" FontSize="16" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever">
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.6" To="1" Duration="0:0:0.8" AutoReverse="True" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+            </Grid>
         </Grid>
-
-        <ItemsControl Grid.Row="2" ItemsSource="{Binding Cities}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Style="{StaticResource AppCard.Compact}" Margin="0,0,10,0" Width="160">
-                        <StackPanel>
-                            <TextBlock Text="{Binding City}" Style="{StaticResource AppText.Label}" />
-                            <TextBlock Text="{Binding TimeText}" Foreground="{DynamicResource AppBrush.TextPrimary}" FontSize="22" FontWeight="SemiBold" />
-                            <TextBlock Text="{Binding WeatherText}" Foreground="{DynamicResource AppBrush.TextSecondary}" FontSize="12" TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+    </Border>
 </UserControl>

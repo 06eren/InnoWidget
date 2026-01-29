@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 using InnoWidget.Core.Formatting;
 using InnoWidget.Core.Mvvm;
@@ -49,9 +51,34 @@ public sealed class NetworkWidgetViewModel : ObservableObject, IDisposable
 
     public string Title { get; } = "Ağ Trafiği İzleyici";
 
+    public bool AnimationsEnabled { get; set; } = true;
+    public double AnimationSpeed { get; set; } = 1.0;
+    public bool PulseEnabled { get; set; } = true;
+    public bool RotateEnabled { get; set; } = true;
+    public bool GlowEnabled { get; set; } = true;
+    public bool NeonParticlesEnabled { get; set; } = true;
+    public int NeonIntensity { get; set; } = 5;
+    public int GlowRadius { get; set; } = 15;
+    public int UpdateInterval { get; set; } = 1000;
+    public bool HighSpeedMode { get; set; } = true;
+    public bool RealTimeUpdates { get; set; } = true;
+    public int SelectedNeonColor { get; set; } = 0;
+    public int BackgroundStyle { get; set; } = 0;
+    public bool SettingsVisible { get; set; } = false;
+    public ICommand ToggleSettingsCommand { get; set; }
+    public ICommand ResetToDefaultCommand { get; set; }
+
+    private void ToggleSettings()
+    {
+        SettingsVisible = !SettingsVisible;
+    }
+
     public NetworkWidgetViewModel(IMonitoringService<NetworkSnapshot> service)
     {
         _service = service;
+        ToggleSettingsCommand = new RelayCommand(() => ToggleSettings());
+        ResetToDefaultCommand = new RelayCommand(ResetToDefault);
+        SettingsVisible = false;
 
         _timer = new DispatcherTimer(DispatcherPriority.Background)
         {
@@ -61,6 +88,23 @@ public sealed class NetworkWidgetViewModel : ObservableObject, IDisposable
 
         _ = RefreshAsync();
         _timer.Start();
+    }
+
+    private void ResetToDefault()
+    {
+        AnimationsEnabled = true;
+        AnimationSpeed = 1.0;
+        PulseEnabled = true;
+        RotateEnabled = true;
+        GlowEnabled = true;
+        NeonParticlesEnabled = true;
+        NeonIntensity = 5;
+        GlowRadius = 15;
+        UpdateInterval = 1000;
+        HighSpeedMode = true;
+        RealTimeUpdates = true;
+        SelectedNeonColor = 0;
+        BackgroundStyle = 0;
     }
 
     private async Task RefreshAsync()

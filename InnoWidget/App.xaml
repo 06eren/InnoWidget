@@ -8,7 +8,13 @@
              xmlns:net="clr-namespace:InnoWidget.Widgets.Network"
              xmlns:notes="clr-namespace:InnoWidget.Widgets.Notes"
              xmlns:world="clr-namespace:InnoWidget.Widgets.World"
-             xmlns:media="clr-namespace:InnoWidget.Widgets.Media">
+             xmlns:media="clr-namespace:InnoWidget.Widgets.Media"
+             xmlns:system="clr-namespace:InnoWidget.Widgets.SystemInfo"
+             xmlns:battery="clr-namespace:InnoWidget.Widgets.Battery"
+             xmlns:weather="clr-namespace:InnoWidget.Widgets.Weather"
+             xmlns:disk="clr-namespace:InnoWidget.Widgets.Disk"
+             xmlns:process="clr-namespace:InnoWidget.Widgets.ProcessMonitor"
+             xmlns:temperature="clr-namespace:InnoWidget.Widgets.Temperature">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,6 +32,15 @@
             <SolidColorBrush x:Key="AppBrush.TextPrimary" Color="#EAEAEA" />
             <SolidColorBrush x:Key="AppBrush.TextSecondary" Color="#BDBDBD" />
             <SolidColorBrush x:Key="AppBrush.TextMuted" Color="#9E9E9E" />
+
+            <SolidColorBrush x:Key="AppBrush.SurfaceGlass" Color="#0D0D0D" Opacity="0.85" />
+            <SolidColorBrush x:Key="AppBrush.SurfaceGlass2" Color="#0A0A0A" Opacity="0.75" />
+
+            <BlurEffect x:Key="AppBlur.Light" Radius="0" KernelType="Gaussian" />
+            <BlurEffect x:Key="AppBlur.Medium" Radius="0" KernelType="Gaussian" />
+            <BlurEffect x:Key="AppBlur.Heavy" Radius="0" KernelType="Gaussian" />
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <Style x:Key="AppText.Title" TargetType="TextBlock">
                 <Setter Property="Foreground" Value="{DynamicResource AppBrush.TextPrimary}" />
@@ -68,6 +83,12 @@
                 <Setter Property="Foreground" Value="{DynamicResource AppBrush.TextPrimary}" />
                 <Setter Property="Padding" Value="12,8" />
                 <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Setter.Value>
+                </Setter>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
@@ -80,9 +101,41 @@
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter TargetName="Bd" Property="Background" Value="#242424" />
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.05" Duration="0:0:0.15" />
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.05" Duration="0:0:0.15" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.15" />
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.15" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
                                     <Setter TargetName="Bd" Property="Background" Value="#2A2A2A" />
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="0.98" Duration="0:0:0.08" />
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="0.98" Duration="0:0:0.08" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.08" />
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.08" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -223,6 +276,30 @@
 
             <DataTemplate DataType="{x:Type media:MediaWidgetViewModel}">
                 <media:MediaWidgetView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type system:SystemWidgetViewModel}">
+                <system:SystemWidgetView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type battery:BatteryWidgetViewModel}">
+                <battery:BatteryWidgetView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type weather:WeatherWidgetViewModel}">
+                <weather:WeatherWidgetView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type disk:DiskWidgetViewModel}">
+                <disk:DiskWidgetView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type process:ProcessWidgetViewModel}">
+                <process:ProcessWidgetView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type temperature:TemperatureWidgetViewModel}">
+                <temperature:TemperatureWidgetView />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

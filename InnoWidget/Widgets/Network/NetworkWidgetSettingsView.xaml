@@ -1,0 +1,117 @@
+<UserControl x:Class="InnoWidget.Widgets.Network.NetworkWidgetSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Border Background="#0A0A0A" BorderBrush="#00FFFF" BorderThickness="2" CornerRadius="15" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect Color="#00FFFF" BlurRadius="10" ShadowDepth="2" Opacity="0.3" />
+        </Border.Effect>
+        
+        <StackPanel>
+            <TextBlock Text="🌃 NEON NETWORK SETTINGS 🌃" FontSize="18" FontWeight="Bold" Foreground="#00FFFF" 
+                       HorizontalAlignment="Center" Margin="0,0,0,20">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="#00FFFF" BlurRadius="6" ShadowDepth="1" />
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <!-- Animation Settings -->
+            <GroupBox Header="🎨 Animation Settings" Margin="0,0,0,15" Foreground="#00FFFF" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <CheckBox Content="Enable Animations" IsChecked="{Binding AnimationsEnabled}" 
+                              Foreground="#00FFFF" Margin="0,5" />
+                    <CheckBox Content="Pulse Effects" IsChecked="{Binding PulseEnabled}" 
+                              Foreground="#00FFFF" Margin="0,5" />
+                    <CheckBox Content="Rotate Effects" IsChecked="{Binding RotateEnabled}" 
+                              Foreground="#00FFFF" Margin="0,5" />
+                    <CheckBox Content="Glow Effects" IsChecked="{Binding GlowEnabled}" 
+                              Foreground="#00FFFF" Margin="0,5" />
+                    <CheckBox Content="Neon Particles" IsChecked="{Binding NeonParticlesEnabled}" 
+                              Foreground="#00FFFF" Margin="0,5" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Speed Settings -->
+            <GroupBox Header="⚡ Speed Settings" Margin="0,0,0,15" Foreground="#00FFFF" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Animation Speed:" Foreground="#00FFFF" Margin="0,5" />
+                    <Slider Minimum="0.1" Maximum="3.0" Value="{Binding AnimationSpeed}" 
+                            TickFrequency="0.1" IsSnapToTickEnabled="True" 
+                            Foreground="#00FFFF" Margin="0,5" />
+                    <TextBlock Text="{Binding AnimationSpeed, StringFormat={}{0:F1}x}" 
+                               Foreground="#00FFFF" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Neon Settings -->
+            <GroupBox Header="🌃 Neon Settings" Margin="0,0,0,15" Foreground="#00FFFF" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Neon Intensity:" Foreground="#00FFFF" Margin="0,5" />
+                    <Slider Minimum="1" Maximum="10" Value="{Binding NeonIntensity}" 
+                            TickFrequency="1" IsSnapToTickEnabled="True" 
+                            Foreground="#00FFFF" Margin="0,5" />
+                    <TextBlock Text="{Binding NeonIntensity}" 
+                               Foreground="#00FFFF" HorizontalAlignment="Center" />
+                    
+                    <TextBlock Text="Glow Radius:" Foreground="#00FFFF" Margin="0,10,0,5" />
+                    <Slider Minimum="5" Maximum="30" Value="{Binding GlowRadius}" 
+                            TickFrequency="5" IsSnapToTickEnabled="True" 
+                            Foreground="#00FFFF" Margin="0,5" />
+                    <TextBlock Text="{Binding GlowRadius, StringFormat={}{0} px}" 
+                               Foreground="#00FFFF" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Network Settings -->
+            <GroupBox Header="🌐 Network Settings" Margin="0,0,0,15" Foreground="#00FFFF" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Update Interval (ms):" Foreground="#00FFFF" Margin="0,5" />
+                    <Slider Minimum="500" Maximum="5000" Value="{Binding UpdateInterval}" 
+                            TickFrequency="500" IsSnapToTickEnabled="True" 
+                            Foreground="#00FFFF" Margin="0,5" />
+                    <TextBlock Text="{Binding UpdateInterval, StringFormat={}{0} ms}" 
+                               Foreground="#00FFFF" HorizontalAlignment="Center" />
+                    
+                    <CheckBox Content="High Speed Mode" IsChecked="{Binding HighSpeedMode}" 
+                              Foreground="#00FFFF" Margin="0,10,0,5" />
+                    <CheckBox Content="Real-time Updates" IsChecked="{Binding RealTimeUpdates}" 
+                              Foreground="#00FFFF" Margin="0,5" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Visual Settings -->
+            <GroupBox Header="🎨 Visual Settings" Margin="0,0,0,15" Foreground="#00FFFF" FontWeight="SemiBold">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Neon Color:" Foreground="#00FFFF" Margin="0,5" />
+                    <ComboBox SelectedIndex="{Binding SelectedNeonColor}" Foreground="#00FFFF" Margin="0,5">
+                        <ComboBoxItem Content="Cyan" />
+                        <ComboBoxItem Content="Magenta" />
+                        <ComboBoxItem Content="Yellow" />
+                        <ComboBoxItem Content="Green" />
+                        <ComboBoxItem Content="Purple" />
+                    </ComboBox>
+                    
+                    <TextBlock Text="Background Style:" Foreground="#00FFFF" Margin="0,10,0,5" />
+                    <ComboBox SelectedIndex="{Binding BackgroundStyle}" Foreground="#00FFFF" Margin="0,5">
+                        <ComboBoxItem Content="Dark" />
+                        <ComboBoxItem Content="Cyber" />
+                        <ComboBoxItem Content="Matrix" />
+                        <ComboBoxItem Content="Tron" />
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Reset Button -->
+            <Button Content="🔄 Reset to Default" Background="#00FFFF" Foreground="#0A0A0A" 
+                    FontWeight="Bold" Padding="15,8" Margin="0,10,0,0"
+                    Command="{Binding ResetToDefaultCommand}">
+                <Button.Effect>
+                    <DropShadowEffect Color="#00FFFF" BlurRadius="5" ShadowDepth="1" />
+                </Button.Effect>
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>

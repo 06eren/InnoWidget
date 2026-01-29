@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using Size = System.Windows.Size;
 
 namespace InnoWidget.Host;
 

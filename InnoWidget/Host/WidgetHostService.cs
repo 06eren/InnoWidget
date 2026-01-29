@@ -93,4 +93,9 @@ public sealed class WidgetHostService
         foreach (var id in _open.Keys.ToList())
             Close(id);
     }
+
+    public IEnumerable<WidgetWindow> GetAllActiveWidgets()
+    {
+        return _open.Values.Select(x => x.window).ToList();
+    }
 }

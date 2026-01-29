@@ -3,15 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Windows;
-using InnoWidget.Host;
 using InnoWidget.Core.Services;
-using InnoWidget.Core.Services.Media;
+using InnoWidget.Host;
 using InnoWidget.Shell;
 using InnoWidget.Widgets.Hardware;
-using InnoWidget.Widgets.Media;
 using InnoWidget.Widgets.Network;
 using InnoWidget.Widgets.Notes;
 using InnoWidget.Widgets.World;
+using InnoWidget.Widgets.Media;
+using InnoWidget.Widgets.SystemInfo;
+using InnoWidget.Widgets.Battery;
+using InnoWidget.Core.Services.Media;
+using InnoWidget.Widgets.Weather;
+using InnoWidget.Widgets.Disk;
+using InnoWidget.Widgets.ProcessMonitor;
+using InnoWidget.Widgets.Temperature;
+using InnoWidget.Widgets.Volcano;
+using InnoWidget.Widgets.Ice;
+using InnoWidget.Widgets.Crystal;
+using InnoWidget.Widgets.Heart;
+using System.Diagnostics;
+using System.Windows.Threading;
+using System.Text.Json;
+using System.IO;
+using InnoWidget.Core.Mvvm;
 
 namespace InnoWidget
 {
@@ -26,10 +41,17 @@ namespace InnoWidget
         private readonly WidgetHostService _widgetHost = new();
         private IReadOnlyDictionary<string, WidgetSettings> _loadedSettings = new Dictionary<string, WidgetSettings>(StringComparer.OrdinalIgnoreCase);
         private List<WidgetDefinition> _definitions = new();
+        
+        // Background ve System Tray servisleri
+        private BackgroundWidgetService? _backgroundService;
+        private SimpleSystemTrayService? _systemTrayService;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            // Enable native performance optimizations (disabled for now)
+            // PerformanceOptimizer.Instance.OptimizeApplication();
 
             _cpuRamService = new CpuRamMonitoringService();
             var networkService = new NetworkMonitoringService();
@@ -89,7 +111,67 @@ namespace InnoWidget
                         var vm = new MediaWidgetViewModel(_mediaService!);
                         _disposables.Add(vm);
                         return vm;
-                    })
+                    }),
+
+                new WidgetDefinition(
+                    id: "system",
+                    title: "Sistem Bilgileri",
+                    defaultSize: new Size(320, 240),
+                    createViewModel: () => new SystemWidgetViewModel()),
+
+                new WidgetDefinition(
+                    id: "battery",
+                    title: "Pil Durumu",
+                    defaultSize: new Size(280, 180),
+                    createViewModel: () => new BatteryWidgetViewModel()),
+
+                new WidgetDefinition(
+                    id: "weather",
+                    title: "Hava Durumu",
+                    defaultSize: new Size(280, 200),
+                    createViewModel: () => new WeatherWidgetViewModel()),
+
+                new WidgetDefinition(
+                    id: "disk",
+                    title: "Disk Kullanımı",
+                    defaultSize: new Size(280, 180),
+                    createViewModel: () => new DiskWidgetViewModel()),
+
+                new WidgetDefinition(
+                    id: "process",
+                    title: "Process İzleyici",
+                    defaultSize: new Size(320, 200),
+                    createViewModel: () => new ProcessWidgetViewModel()),
+
+                new WidgetDefinition(
+                    id: "temperature",
+                    title: "Sıcaklık Monitörü",
+                    defaultSize: new Size(280, 180),
+                    createViewModel: () => new TemperatureWidgetViewModel()),
+
+                new WidgetDefinition(
+                    id: "volcano",
+                    title: "Volcano Monitor",
+                    defaultSize: new Size(280, 180),
+                    createViewModel: () => new VolcanoWidgetViewModel()),
+
+                new WidgetDefinition(
+                    id: "ice",
+                    title: "Ice Monitor",
+                    defaultSize: new Size(280, 180),
+                    createViewModel: () => new IceWidgetViewModel()),
+
+                new WidgetDefinition(
+                    id: "crystal",
+                    title: "Crystal Monitor",
+                    defaultSize: new Size(280, 180),
+                    createViewModel: () => new CrystalWidgetViewModel()),
+
+                new WidgetDefinition(
+                    id: "heart",
+                    title: "Heart Monitor",
+                    defaultSize: new Size(280, 180),
+                    createViewModel: () => new HeartWidgetViewModel()),
             };
 
             var toggles = _definitions.Select(def =>
@@ -102,6 +184,12 @@ namespace InnoWidget
                     "notes" => "pack://application:,,,/Assets/Icons/note.svg",
                     "world" => "pack://application:,,,/Assets/Icons/world.svg",
                     "media" => "pack://application:,,,/Assets/Icons/media.svg",
+                    "system" => "pack://application:,,,/Assets/Icons/system.svg",
+                    "battery" => "pack://application:,,,/Assets/Icons/battery.svg",
+                    "weather" => "pack://application:,,,/Assets/Icons/cloud.svg",
+                    "disk" => "pack://application:,,,/Assets/Icons/disk.svg",
+                    "process" => "pack://application:,,,/Assets/Icons/process.svg",
+                    "temperature" => "pack://application:,,,/Assets/Icons/thermometer.svg",
                     _ => "pack://application:,,,/Assets/Icons/widget.svg"
                 };
 
@@ -138,12 +226,25 @@ namespace InnoWidget
                 if (settings.IsOpen)
                     _widgetHost.Show(def, settings);
             }
+
+            // Background ve System Tray servislerini başlat
+            _backgroundService = new BackgroundWidgetService(_widgetHost);
+            _systemTrayService = new SimpleSystemTrayService(_backgroundService);
+            _disposables.Add(_backgroundService);
+            _disposables.Add(_systemTrayService);
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
             PersistLayout();
             _widgetHost.CloseAll();
+
+            // Restore performance settings (disabled for now)
+            // PerformanceOptimizer.Instance.RestoreApplication();
+
+            // Background ve System Tray servislerini temizle
+            _backgroundService?.Dispose();
+            _systemTrayService?.Dispose();
 
             for (var i = _disposables.Count - 1; i >= 0; i--)
                 _disposables[i].Dispose();

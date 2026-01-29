@@ -3,45 +3,391 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:InnoWidget.Widgets.Hardware"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="160" d:DesignWidth="260">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="10" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
+             d:DesignHeight="280" d:DesignWidth="420">
+    <Border Background="#FFF0F5" BorderBrush="#FFB7C5" BorderThickness="3" CornerRadius="20" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect Color="#FFB7C5" BlurRadius="15" ShadowDepth="3" Opacity="0.5" />
+        </Border.Effect>
+        
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="8" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Canvas x:Name="SakuraCanvas" IsHitTestVisible="False" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <svgc:SvgViewbox Width="16" Height="16" Stretch="Uniform" VerticalAlignment="Center" Source="pack://application:,,,/Assets/Icons/cpu.svg" />
-            <TextBlock Grid.Column="2" Text="{Binding Title}" Style="{StaticResource AppText.Title}" />
+                <!-- Sakura Garden Header -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <svgc:SvgViewbox Width="32" Height="32" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/sakura.svg">
+                            <svgc:SvgViewbox.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.6" To="1" Duration="0:0:3" AutoReverse="True" />
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:8" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </svgc:SvgViewbox.Triggers>
+                            <svgc:SvgViewbox.RenderTransform>
+                                <RotateTransform CenterX="16" CenterY="16" />
+                            </svgc:SvgViewbox.RenderTransform>
+                        </svgc:SvgViewbox>
+                        <TextBlock Text="🌸 SAKURA SYSTEM 🌸" FontSize="22" FontWeight="Bold" Foreground="#FF69B4" Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="#FFB7C5" BlurRadius="8" ShadowDepth="2" />
+                            </TextBlock.Effect>
+                            <TextBlock.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" 
+                                                           To="#FF1493" Duration="0:0:4" AutoReverse="True" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </TextBlock.Triggers>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Grid.Column="1" Text="🌸 CHERRY BLOSSOM PERFORMANCE 🌸" FontSize="16" Foreground="#FF69B4" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#FFB7C5" BlurRadius="6" ShadowDepth="2" />
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </Grid>
+
+                <!-- CPU Sakura Bar -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <svgc:SvgViewbox Width="24" Height="24" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/cpu.svg">
+                            <svgc:SvgViewbox.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.5" To="1" Duration="0:0:2" AutoReverse="True" />
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" From="0.8" To="1.2" Duration="0:0:3" AutoReverse="True" />
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" From="0.8" To="1.2" Duration="0:0:3" AutoReverse="True" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </svgc:SvgViewbox.Triggers>
+                            <svgc:SvgViewbox.RenderTransform>
+                                <ScaleTransform CenterX="12" CenterY="12" />
+                            </svgc:SvgViewbox.RenderTransform>
+                        </svgc:SvgViewbox>
+                        <TextBlock Text="CPU" Foreground="#FF69B4" FontWeight="Bold" Margin="8,0,0,0" FontSize="16" />
+                    </StackPanel>
+
+                    <Border Grid.Column="1" Background="#FFE4E1" CornerRadius="15" Height="25" Margin="10,0">
+                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding CpuPercent, Mode=OneWay}" 
+                                     Background="Transparent" Foreground="#FF69B4" BorderThickness="0">
+                            <ProgressBar.Effect>
+                                <DropShadowEffect Color="#FFB7C5" BlurRadius="8" ShadowDepth="2" />
+                            </ProgressBar.Effect>
+                            <ProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.7" To="1" Duration="0:0:1.5" AutoReverse="True" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
+                    </Border>
+
+                    <TextBlock Grid.Column="2" Text="{Binding CpuPercent, StringFormat={}{0:0}%}" 
+                               Foreground="#FF69B4" FontWeight="Bold" FontSize="18" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#FFB7C5" BlurRadius="8" ShadowDepth="2" />
+                        </TextBlock.Effect>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.6" To="1" Duration="0:0:1" AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                </Grid>
+
+                <!-- RAM Sakura Bar -->
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <svgc:SvgViewbox Width="24" Height="24" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/memory.svg">
+                            <svgc:SvgViewbox.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.5" To="1" Duration="0:0:2.5" AutoReverse="True" />
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:6" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </svgc:SvgViewbox.Triggers>
+                            <svgc:SvgViewbox.RenderTransform>
+                                <RotateTransform CenterX="12" CenterY="12" />
+                            </svgc:SvgViewbox.RenderTransform>
+                        </svgc:SvgViewbox>
+                        <TextBlock Text="RAM" Foreground="#FF69B4" FontWeight="Bold" Margin="8,0,0,0" FontSize="16" />
+                    </StackPanel>
+
+                    <Border Grid.Column="1" Background="#FFE4E1" CornerRadius="15" Height="25" Margin="10,0">
+                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding RamPercent, Mode=OneWay}" 
+                                     Background="Transparent" Foreground="#FFB6C1" BorderThickness="0">
+                            <ProgressBar.Effect>
+                                <DropShadowEffect Color="#FFB7C5" BlurRadius="8" ShadowDepth="2" />
+                            </ProgressBar.Effect>
+                            <ProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.7" To="1" Duration="0:0:2" AutoReverse="True" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
+                    </Border>
+
+                    <TextBlock Grid.Column="2" Text="{Binding RamPercent, StringFormat={}{0:0}%}" 
+                               Foreground="#FFB6C1" FontWeight="Bold" FontSize="18" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#FFB7C5" BlurRadius="8" ShadowDepth="2" />
+                        </TextBlock.Effect>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.6" To="1" Duration="0:0:1.2" AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                </Grid>
+
+                <!-- Sakura Performance Status -->
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <svgc:SvgViewbox Width="24" Height="24" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/sakura.svg">
+                            <svgc:SvgViewbox.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.4" To="1" Duration="0:0:3" AutoReverse="True" />
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="360" To="0" Duration="0:0:10" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </svgc:SvgViewbox.Triggers>
+                            <svgc:SvgViewbox.RenderTransform>
+                                <RotateTransform CenterX="12" CenterY="12" />
+                            </svgc:SvgViewbox.RenderTransform>
+                        </svgc:SvgViewbox>
+                        <TextBlock Text="STATUS" Foreground="#FF69B4" FontWeight="Bold" Margin="8,0,0,0" FontSize="16" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Column="1" Text="🌸 SAKURA BLOOM MODE 🌸 CHERRY PERFORMANCE 🌸" FontSize="14" Foreground="#FF69B4" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#FFB7C5" BlurRadius="10" ShadowDepth="3" />
+                        </TextBlock.Effect>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" 
+                                                       To="#FF1493" Duration="0:0:3" AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+
+                    <TextBlock Grid.Column="2" Text="BLOOM" Foreground="#FF1493" FontWeight="Bold" FontSize="16" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#FFB7C5" BlurRadius="10" ShadowDepth="3" />
+                        </TextBlock.Effect>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.5" To="1" Duration="0:0:1.5" AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                </Grid>
+
+                <!-- Sakura Garden Effects -->
+                <Grid Grid.Row="7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <svgc:SvgViewbox Width="24" Height="24" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/flower.svg">
+                            <svgc:SvgViewbox.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.3" To="1" Duration="0:0:2" AutoReverse="True" />
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:4" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </svgc:SvgViewbox.Triggers>
+                            <svgc:SvgViewbox.RenderTransform>
+                                <RotateTransform CenterX="12" CenterY="12" />
+                            </svgc:SvgViewbox.RenderTransform>
+                        </svgc:SvgViewbox>
+                        <TextBlock Text="GARDEN" Foreground="#FF69B4" FontWeight="Bold" Margin="8,0,0,0" FontSize="16" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Column="1" Text="🌸 PETAL FALL 🌸 SAKURA RAIN 🌸 CHERRY BLOSSOM 🌸" FontSize="14" Foreground="#FFB7C5" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#FFB7C5" BlurRadius="12" ShadowDepth="4" />
+                        </TextBlock.Effect>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" 
+                                                       To="#FF69B4" Duration="0:0:2.5" AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+
+                    <TextBlock Grid.Column="2" Text="🌸" Foreground="#FFB7C5" FontWeight="Bold" FontSize="20" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.4" To="1" Duration="0:0:1" AutoReverse="True" />
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" From="0.8" To="1.3" Duration="0:0:2" AutoReverse="True" />
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" From="0.8" To="1.3" Duration="0:0:2" AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform CenterX="10" CenterY="10" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </Grid>
+
+                <!-- Zen Performance -->
+                <Grid Grid.Row="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <svgc:SvgViewbox Width="24" Height="24" Stretch="Uniform" Source="pack://application:,,,/Assets/Icons/cocktail.svg">
+                            <svgc:SvgViewbox.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.5" To="1" Duration="0:0:2.5" AutoReverse="True" />
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </svgc:SvgViewbox.Triggers>
+                            <svgc:SvgViewbox.RenderTransform>
+                                <RotateTransform CenterX="12" CenterY="12" />
+                            </svgc:SvgViewbox.RenderTransform>
+                        </svgc:SvgViewbox>
+                        <TextBlock Text="ZEN" Foreground="#FF69B4" FontWeight="Bold" Margin="8,0,0,0" FontSize="16" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Column="1" Text="🧘 MEDITATION MODE 🧘 PEACEFUL COMPUTING 🧘 HARMONY 🧘" FontSize="14" Foreground="#FF1493" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#FFB7C5" BlurRadius="12" ShadowDepth="4" />
+                        </TextBlock.Effect>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" 
+                                                       To="#FF69B4" Duration="0:0:3" AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+
+                    <TextBlock Grid.Column="2" Text="🕉️" Foreground="#FF1493" FontWeight="Bold" FontSize="20" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.6" To="1" Duration="0:0:1.5" AutoReverse="True" />
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:8" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                        <TextBlock.RenderTransform>
+                            <RotateTransform CenterX="10" CenterY="10" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </Grid>
+            </Grid>
         </Grid>
-
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="12" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <StackPanel>
-                <TextBlock Text="CPU" Style="{StaticResource AppText.Label}" />
-                <ProgressBar Height="8" Minimum="0" Maximum="100" Value="{Binding CpuPercent, Mode=OneWay}" Margin="0,6,0,0" />
-                <TextBlock Text="{Binding CpuPercent, StringFormat={}{0:0}%}" Foreground="{DynamicResource AppBrush.TextPrimary}" FontSize="18" FontWeight="SemiBold" Margin="0,6,0,0" />
-            </StackPanel>
-
-            <StackPanel Grid.Column="2">
-                <TextBlock Text="RAM" Style="{StaticResource AppText.Label}" />
-                <ProgressBar Height="8" Minimum="0" Maximum="100" Value="{Binding RamPercent, Mode=OneWay}" Margin="0,6,0,0" />
-                <TextBlock Text="{Binding RamPercent, StringFormat={}{0:0}%}" Foreground="{DynamicResource AppBrush.TextPrimary}" FontSize="18" FontWeight="SemiBold" Margin="0,6,0,0" />
-            </StackPanel>
-        </Grid>
-    </Grid>
+    </Border>
 </UserControl>
