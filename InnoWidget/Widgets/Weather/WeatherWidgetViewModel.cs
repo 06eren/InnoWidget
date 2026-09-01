@@ -1,20 +1,29 @@
 using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 using InnoWidget.Core.Mvvm;
+using InnoWidget.Core.Services;
 
 namespace InnoWidget.Widgets.Weather;
 
-public class WeatherWidgetViewModel : ObservableObject
+public class WeatherWidgetViewModel : ObservableObject, IDisposable
 {
+    private readonly IWeatherService _weatherService;
+    private bool _isRefreshing;
+
     private string _temperature = "20°C";
     private string _description = "Açık";
     private string _humidity = "65%";
     private string _windSpeed = "10 km/s";
     private string _location = "İstanbul";
 
-    public WeatherWidgetViewModel()
+    public WeatherWidgetViewModel(IWeatherService? weatherService = null)
     {
-        LoadWeatherData();
-        StartTimer();
+        _weatherService = weatherService ?? new OpenMeteoWeatherService(new System.Net.Http.HttpClient());
+        
+        // TIMER KALDIRILDI - KASMA SORUNU KÖKEN ÇÖZÜM
+        // Sadece başlangıçta bir kez veri al
+        LoadWeatherDataOnce();
     }
 
     public string Temperature
@@ -47,27 +56,79 @@ public class WeatherWidgetViewModel : ObservableObject
         set => SetProperty(ref _location, value);
     }
 
-    private void LoadWeatherData()
+    private async void LoadWeatherDataOnce()
     {
-        var rnd = new Random();
-        var temps = new[] { "18°C", "20°C", "22°C", "24°C", "26°C", "28°C" };
-        var descriptions = new[] { "Açık", "Parçalı Bulutlu", "Güneşli", "Az Bulutlu" };
-        var humidities = new[] { "45%", "55%", "65%", "75%", "85%" };
-        var winds = new[] { "5 km/s", "10 km/s", "15 km/s", "20 km/s" };
+        if (_isRefreshing || _weatherService == null)
+            return;
 
-        Temperature = temps[rnd.Next(temps.Length)];
-        Description = descriptions[rnd.Next(descriptions.Length)];
-        Humidity = humidities[rnd.Next(humidities.Length)];
-        WindSpeed = winds[rnd.Next(winds.Length)];
+        _isRefreshing = true;
+        try
+        {
+            // Istanbul koordinatları - sadece bir kez
+            var weather = await _weatherService.GetCurrentAsync(41.015137, 28.979530, CancellationToken.None);
+            
+            if (weather != null)
+            {
+                Temperature = $"{weather.TemperatureC:F1}°C";
+                Description = weather.Summary;
+                Humidity = "N/A"; // WeatherSnapshot'ta bu property yok
+                WindSpeed = "N/A"; // WeatherSnapshot'ta bu property yok
+                Location = "İstanbul";
+            }
+        }
+        catch
+        {
+            // API hatası durumunda varsayılan değerler
+            Temperature = "N/A";
+            Description = "Veri alınamadı";
+            Humidity = "N/A";
+            WindSpeed = "N/A";
+        }
+        finally
+        {
+            _isRefreshing = false;
+        }
     }
 
-    private void StartTimer()
+    private string GetWeatherDescription(int weatherCode)
     {
-        var timer = new System.Windows.Threading.DispatcherTimer
+        return weatherCode switch
         {
-            Interval = TimeSpan.FromMinutes(10)
+            0 => "Açık",
+            1 => "Çok az bulutlu",
+            2 => "Az bulutlu",
+            3 => "Parçalı bulutlu",
+            45 => "Sisli",
+            48 => "Sisli",
+            51 => "Hafif yağmurlu",
+            53 => "Yağmurlu",
+            55 => "Yoğun yağmurlu",
+            56 => "Hafif dondurucu yağmurlu",
+            57 => "Dondurucu yağmurlu",
+            61 => "Hafif yağmurlu",
+            63 => "Yağmurlu",
+            65 => "Yoğun yağmurlu",
+            66 => "Hafif dondurucu yağmurlu",
+            67 => "Dondurucu yağmurlu",
+            71 => "Hafif karlı",
+            73 => "Karlı",
+            75 => "Yoğun karlı",
+            77 => "Kar taneli",
+            80 => "Hafif sağanaklı",
+            81 => "Sağanaklı",
+            82 => "Yoğun sağanaklı",
+            85 => "Hafif sağanaklı",
+            86 => "Yoğun sağanaklı",
+            95 => "Gök gürültülü hafif yağmurlu",
+            96 => "Gök gürültülü hafif dolulu yağmurlu",
+            99 => "Yoğun gök gürültülü dolulu yağmurlu",
+            _ => "Bilinmeyen"
         };
-        timer.Tick += (_, _) => LoadWeatherData();
-        timer.Start();
+    }
+
+    public void Dispose()
+    {
+        // TIMER KALDIRILDI - KASMA SORUNU KÖKEN ÇÖZÜM
+        // Dispose gerekli değil - timer yok
     }
 }

@@ -1,0 +1,68 @@
+<UserControl x:Class="InnoWidget.Widgets.Test.TestWidgetView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="120" d:DesignWidth="280">
+    
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="MainBorder" 
+                                     Storyboard.TargetProperty="Opacity"
+                                     From="0" To="1" Duration="0:0:0.5" />
+                    <DoubleAnimation Storyboard.TargetName="MainBorder" 
+                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                     From="20" To="0" Duration="0:0:0.5">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+    
+    <!-- Basit Test Widget - Hafif Animasyon -->
+    <Border x:Name="MainBorder" Background="#1E1E2E" BorderBrush="#3C3C4C" BorderThickness="1" CornerRadius="12" Padding="16">
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" BlurRadius="8" ShadowDepth="2" Opacity="0.3" />
+        </Border.Effect>
+        <Border.RenderTransform>
+            <TranslateTransform Y="0"/>
+        </Border.RenderTransform>
+        
+        <Grid>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Test Widget" FontFamily="Segoe UI" FontSize="16" 
+                          FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                     From="0" To="1" Duration="0:0:0.8" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+                <TextBlock Text="{Binding Message}" FontFamily="Segoe UI" FontSize="12" 
+                          Foreground="#8B92A8" HorizontalAlignment="Center" Margin="0,8,0,0">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard BeginTime="0:0:0.3">
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                     From="0" To="1" Duration="0:0:0.5" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

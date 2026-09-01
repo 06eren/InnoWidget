@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace InnoWidget.Host;
 
@@ -14,13 +16,32 @@ public sealed class WidgetHostService
 
     public void Show(WidgetDefinition def, WidgetSettings settings)
     {
+        Console.WriteLine($"[WIDGET] Showing widget: {def.Id}, IsOpen: {settings.IsOpen}");
+        
         if (_open.TryGetValue(def.Id, out var existing))
         {
+            Debug.WriteLine($"[WIDGET] Widget {def.Id} already open, activating...");
             existing.window.Activate();
             return;
         }
 
+        Debug.WriteLine($"[WIDGET] Creating ViewModel for {def.Id}");
         var vm = def.CreateViewModel();
+        
+        // Widget'ı doğru şekilde yükle
+        Debug.WriteLine($"[WIDGET] Creating View for {def.Id}");
+        UserControl? view = def.Id.ToLowerInvariant() switch
+        {
+            "test" => new InnoWidget.Widgets.Test.TestWidgetView(),
+            "hardware" => new InnoWidget.Widgets.Hardware.HardwareWidgetView(),
+            "weather" => new InnoWidget.Widgets.Weather.WeatherWidgetView(),
+            "notes" => new InnoWidget.Widgets.Notes.NotesWidgetView(),
+            _ => null
+        };
+
+        Debug.WriteLine($"[WIDGET] View created: {view != null}");
+        Debug.WriteLine($"[WIDGET] Creating WidgetWindow at position ({settings.Left}, {settings.Top})");
+
         var w = new WidgetWindow
         {
             Title = def.Title,
@@ -28,8 +49,33 @@ public sealed class WidgetHostService
             Height = settings.Height > 0 ? settings.Height : def.DefaultSize.Height,
             Left = settings.Left,
             Top = settings.Top,
-            DataContext = vm
+            DataContext = vm,
+            Topmost = true,  // Widget'ı her zaman üstte göster
+            Visibility = Visibility.Visible  // Explicitly make visible
         };
+
+        // View'ı pencereye ekle
+        if (view != null)
+        {
+            Debug.WriteLine($"[WIDGET] Adding View to Window");
+            view.DataContext = vm;
+            var mainGrid = w.FindName("MainGrid") as Grid;
+            if (mainGrid != null)
+            {
+                Debug.WriteLine($"[WIDGET] MainGrid found, adding View");
+                // ResizeGrip'den önce ekle
+                mainGrid.Children.Insert(0, view);
+                Debug.WriteLine($"[WIDGET] View added to MainGrid, children count: {mainGrid.Children.Count}");
+            }
+            else
+            {
+                Debug.WriteLine($"[WIDGET] MainGrid NOT FOUND!");
+            }
+        }
+        else
+        {
+            Debug.WriteLine($"[WIDGET] View is NULL!");
+        }
 
         var bgOpacity = ClampOpacity(settings.Opacity);
         _opacityById[def.Id] = bgOpacity;
@@ -37,13 +83,17 @@ public sealed class WidgetHostService
 
         w.Closed += (_, _) =>
         {
+            Debug.WriteLine($"[WIDGET] Widget {def.Id} closed");
             if (vm is IDisposable d)
                 d.Dispose();
             _open.Remove(def.Id);
         };
 
         _open[def.Id] = (def, w);
+        Console.WriteLine($"[WIDGET] Showing window for {def.Id}");
+        
         w.Show();
+        Console.WriteLine($"[WIDGET] Window shown for {def.Id}");
     }
 
     public void Close(string id)

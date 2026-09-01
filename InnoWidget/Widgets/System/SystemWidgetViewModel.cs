@@ -16,7 +16,9 @@ public class SystemWidgetViewModel : ObservableObject
     public SystemWidgetViewModel()
     {
         LoadSystemInfo();
-        StartTimer();
+        
+        // TIMER KALDIRILDI - KASMA SORUNU KÖKEN ÇÖZÜM
+        // Uptime sadece başlangıçta hesapla, güncelleme yok
     }
 
     public string OSName
@@ -67,16 +69,6 @@ public class SystemWidgetViewModel : ObservableObject
             ComputerName = "Bilinmiyor";
             UserName = "Bilinmiyor";
         }
-    }
-
-    private void StartTimer()
-    {
-        var timer = new System.Windows.Threading.DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(1)
-        };
-        timer.Tick += (_, _) => UpdateUptime();
-        timer.Start();
     }
 
     private void UpdateUptime()

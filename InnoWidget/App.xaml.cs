@@ -18,6 +18,7 @@ using InnoWidget.Widgets.Weather;
 using InnoWidget.Widgets.Disk;
 using InnoWidget.Widgets.ProcessMonitor;
 using InnoWidget.Widgets.Temperature;
+using InnoWidget.Widgets.Test;
 using InnoWidget.Widgets.Volcano;
 using InnoWidget.Widgets.Ice;
 using InnoWidget.Widgets.Crystal;
@@ -63,9 +64,19 @@ namespace InnoWidget
 
             _definitions = new List<WidgetDefinition>
             {
+                // BASİT TEST WIDGET'I - KASMA SORUNU TEST
+                new WidgetDefinition(
+                    id: "test",
+                    title: "Test Widget",
+                    defaultSize: new Size(280, 120),
+                    createViewModel: () => new TestWidgetViewModel()),
+
+                // Essential widget'lar - minimalist ve şık (timer'lar kapalı)
+                // Hardware geçici olarak devre dışı - binding sorunu var
+                /*
                 new WidgetDefinition(
                     id: "hardware",
-                    title: "Mini Donanım Monitörü",
+                    title: "System Monitor",
                     defaultSize: new Size(280, 180),
                     createViewModel: () =>
                     {
@@ -73,105 +84,24 @@ namespace InnoWidget
                         _disposables.Add(vm);
                         return vm;
                     }),
+                */
 
                 new WidgetDefinition(
-                    id: "network",
-                    title: "Ağ Trafiği İzleyici",
-                    defaultSize: new Size(280, 180),
+                    id: "weather",
+                    title: "Weather",
+                    defaultSize: new Size(280, 120),
                     createViewModel: () =>
                     {
-                        var vm = new NetworkWidgetViewModel(networkService);
+                        var vm = new WeatherWidgetViewModel(_weatherService);
                         _disposables.Add(vm);
                         return vm;
                     }),
 
                 new WidgetDefinition(
                     id: "notes",
-                    title: "Hızlı Not / To-Do",
-                    defaultSize: new Size(280, 220),
+                    title: "Quick Notes",
+                    defaultSize: new Size(280, 150),
                     createViewModel: () => new NotesWidgetViewModel()),
-
-                new WidgetDefinition(
-                    id: "world",
-                    title: "Dünya Saatleri ve Hava Durumu",
-                    defaultSize: new Size(560, 220),
-                    createViewModel: () =>
-                    {
-                        var vm = new WorldClockWidgetViewModel(_weatherService!);
-                        _disposables.Add(vm);
-                        return vm;
-                    }),
-
-                new WidgetDefinition(
-                    id: "media",
-                    title: "Spotify/Medya Kontrolcü",
-                    defaultSize: new Size(320, 220),
-                    createViewModel: () =>
-                    {
-                        var vm = new MediaWidgetViewModel(_mediaService!);
-                        _disposables.Add(vm);
-                        return vm;
-                    }),
-
-                new WidgetDefinition(
-                    id: "system",
-                    title: "Sistem Bilgileri",
-                    defaultSize: new Size(320, 240),
-                    createViewModel: () => new SystemWidgetViewModel()),
-
-                new WidgetDefinition(
-                    id: "battery",
-                    title: "Pil Durumu",
-                    defaultSize: new Size(280, 180),
-                    createViewModel: () => new BatteryWidgetViewModel()),
-
-                new WidgetDefinition(
-                    id: "weather",
-                    title: "Hava Durumu",
-                    defaultSize: new Size(280, 200),
-                    createViewModel: () => new WeatherWidgetViewModel()),
-
-                new WidgetDefinition(
-                    id: "disk",
-                    title: "Disk Kullanımı",
-                    defaultSize: new Size(280, 180),
-                    createViewModel: () => new DiskWidgetViewModel()),
-
-                new WidgetDefinition(
-                    id: "process",
-                    title: "Process İzleyici",
-                    defaultSize: new Size(320, 200),
-                    createViewModel: () => new ProcessWidgetViewModel()),
-
-                new WidgetDefinition(
-                    id: "temperature",
-                    title: "Sıcaklık Monitörü",
-                    defaultSize: new Size(280, 180),
-                    createViewModel: () => new TemperatureWidgetViewModel()),
-
-                new WidgetDefinition(
-                    id: "volcano",
-                    title: "Volcano Monitor",
-                    defaultSize: new Size(280, 180),
-                    createViewModel: () => new VolcanoWidgetViewModel()),
-
-                new WidgetDefinition(
-                    id: "ice",
-                    title: "Ice Monitor",
-                    defaultSize: new Size(280, 180),
-                    createViewModel: () => new IceWidgetViewModel()),
-
-                new WidgetDefinition(
-                    id: "crystal",
-                    title: "Crystal Monitor",
-                    defaultSize: new Size(280, 180),
-                    createViewModel: () => new CrystalWidgetViewModel()),
-
-                new WidgetDefinition(
-                    id: "heart",
-                    title: "Heart Monitor",
-                    defaultSize: new Size(280, 180),
-                    createViewModel: () => new HeartWidgetViewModel()),
             };
 
             var toggles = _definitions.Select(def =>
@@ -220,11 +150,35 @@ namespace InnoWidget
             MainWindow = window;
             window.Show();
 
+            // TEST: Widget'ı direkt göster
+            Console.WriteLine("[APP] TEST: Creating test widget directly");
+            var testDef = _definitions.First(d => d.Id == "test");
+            var testSettings = new WidgetSettings
+            {
+                Id = "test",
+                IsOpen = true,
+                Left = 500,
+                Top = 300,
+                Width = 280,
+                Height = 120,
+                Opacity = 1.0
+            };
+            _widgetHost.Show(testDef, testSettings);
+            Console.WriteLine("[APP] TEST: Test widget shown");
+
             foreach (var def in _definitions)
             {
                 var settings = GetOrCreateSettings(def);
+                System.Diagnostics.Debug.WriteLine($"[APP] Processing widget: {def.Id}, IsOpen: {settings.IsOpen}");
                 if (settings.IsOpen)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[APP] Showing widget: {def.Id}");
                     _widgetHost.Show(def, settings);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"[APP] Skipping widget: {def.Id} (IsOpen = false)");
+                }
             }
 
             // Background ve System Tray servislerini başlat
@@ -236,23 +190,45 @@ namespace InnoWidget
 
         protected override void OnExit(ExitEventArgs e)
         {
-            PersistLayout();
-            _widgetHost.CloseAll();
+            try
+            {
+                PersistLayout();
+                _widgetHost.CloseAll();
 
-            // Restore performance settings (disabled for now)
-            // PerformanceOptimizer.Instance.RestoreApplication();
+                // Restore performance settings (disabled for now)
+                // PerformanceOptimizer.Instance.RestoreApplication();
 
-            // Background ve System Tray servislerini temizle
-            _backgroundService?.Dispose();
-            _systemTrayService?.Dispose();
+                // Background ve System Tray servislerini temizle
+                _backgroundService?.Dispose();
+                _systemTrayService?.Dispose();
 
-            for (var i = _disposables.Count - 1; i >= 0; i--)
-                _disposables[i].Dispose();
+                // Tüm disposable'ları temizle (reverse order)
+                for (var i = _disposables.Count - 1; i >= 0; i--)
+                {
+                    try
+                    {
+                        _disposables[i]?.Dispose();
+                    }
+                    catch
+                    {
+                        // Dispose sırasında hata olursa sessizce geç
+                    }
+                }
 
-            _cpuRamService?.Dispose();
-            _httpClient?.Dispose();
-            _mediaService?.Dispose();
-            base.OnExit(e);
+                // Service'leri temizle
+                _cpuRamService?.Dispose();
+                _httpClient?.Dispose();
+                _mediaService?.Dispose();
+                // _weatherService?.Dispose(); // OpenMeteoWeatherService Dispose implement etmiyor
+            }
+            catch
+            {
+                // Exit sırasında hata olursa sessizce geç
+            }
+            finally
+            {
+                base.OnExit(e);
+            }
         }
 
         private WidgetSettings GetOrCreateSettings(WidgetDefinition def)
@@ -260,12 +236,15 @@ namespace InnoWidget
             if (_loadedSettings.TryGetValue(def.Id, out var existing))
                 return existing;
 
+            // Tüm widget'ları varsayılan olarak açık yap
+            bool isOpen = true;  // TÜM WIDGET'LAR AÇIK
+
             return new WidgetSettings
             {
                 Id = def.Id,
-                IsOpen = false,
-                Left = 100,
-                Top = 100,
+                IsOpen = isOpen,
+                Left = 100 + (_definitions.IndexOf(def) * 320),  // Yan yana diz
+                Top = 100 + (_definitions.IndexOf(def) * 200),  // Alt alta diz
                 Width = def.DefaultSize.Width,
                 Height = def.DefaultSize.Height,
                 Opacity = 1.0

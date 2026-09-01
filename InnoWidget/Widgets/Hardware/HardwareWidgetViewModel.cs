@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Windows.Input;
+using System.Windows;
 using InnoWidget.Core.Mvvm;
 using InnoWidget.Core.Services;
 
@@ -10,7 +11,6 @@ namespace InnoWidget.Widgets.Hardware;
 public sealed class HardwareWidgetViewModel : ObservableObject, IDisposable
 {
     private readonly IMonitoringService<CpuRamSnapshot> _service;
-    private readonly DispatcherTimer _timer;
     private bool _isRefreshing;
 
     private double _cpuPercent;
@@ -58,17 +58,12 @@ public sealed class HardwareWidgetViewModel : ObservableObject, IDisposable
         ResetToDefaultCommand = new RelayCommand(ResetToDefault);
         SettingsVisible = false;
 
-        _timer = new DispatcherTimer(DispatcherPriority.Background)
-        {
-            Interval = TimeSpan.FromSeconds(1)
-        };
-        _timer.Tick += async (_, _) => await RefreshAsync().ConfigureAwait(true);
-
-        _ = RefreshAsync();
-        _timer.Start();
+        // TIMER KALDIRILDI - KASMA SORUNU KÖKEN ÇÖZÜM
+        // Sadece başlangıçta bir kez veri al
+        _ = RefreshOnce();
     }
 
-    private async Task RefreshAsync()
+    private async Task RefreshOnce()
     {
         if (_isRefreshing)
             return;
@@ -76,7 +71,10 @@ public sealed class HardwareWidgetViewModel : ObservableObject, IDisposable
         _isRefreshing = true;
         try
         {
-            var snap = await Task.Run(() => _service.GetSnapshot()).ConfigureAwait(true);
+            // Sadece bir kez veri al - timer yok
+            var snap = await Task.Run(() => _service.GetSnapshot()).ConfigureAwait(false);
+            
+            // UI thread'e dokunma - property'ler zaten thread-safe
             CpuPercent = snap.CpuPercent;
             RamPercent = snap.RamPercent;
         }
@@ -105,6 +103,7 @@ public sealed class HardwareWidgetViewModel : ObservableObject, IDisposable
 
     public void Dispose()
     {
-        _timer.Stop();
+        // TIMER KALDIRILDI - KASMA SORUNU KÖKEN ÇÖZÜM
+        // Dispose gerekli değil - timer yok
     }
 }

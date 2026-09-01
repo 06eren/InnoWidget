@@ -82,9 +82,9 @@ public sealed class NetworkWidgetViewModel : ObservableObject, IDisposable
 
         _timer = new DispatcherTimer(DispatcherPriority.Background)
         {
-            Interval = TimeSpan.FromSeconds(1)
+            Interval = TimeSpan.FromSeconds(30) // 30 saniyeye çıkardık - neredeyse kapattık
         };
-        _timer.Tick += async (_, _) => await RefreshAsync().ConfigureAwait(true);
+        _timer.Tick += async (_, _) => await RefreshAsync().ConfigureAwait(false);
 
         _ = RefreshAsync();
         _timer.Start();
@@ -115,7 +115,10 @@ public sealed class NetworkWidgetViewModel : ObservableObject, IDisposable
         _isRefreshing = true;
         try
         {
-            var snap = await Task.Run(() => _service.GetSnapshot()).ConfigureAwait(true);
+            // Background thread'de çalıştır - UI thread'e dokunma
+            var snap = await Task.Run(() => _service.GetSnapshot()).ConfigureAwait(false);
+            
+            // UI thread'e dokunma - property'ler zaten thread-safe
             DownloadBitsPerSecond = snap.DownloadBitsPerSecond;
             UploadBitsPerSecond = snap.UploadBitsPerSecond;
 

@@ -1,10 +1,10 @@
 using System.Windows.Controls;
 
-namespace InnoWidget.Widgets.Weather;
+namespace InnoWidget.Widgets.Test;
 
-public partial class WeatherWidgetView : UserControl
+public partial class TestWidgetView : UserControl
 {
-    public WeatherWidgetView()
+    public TestWidgetView()
     {
         InitializeComponent();
         // DataContext App.xaml.cs'de ayarlanıyor

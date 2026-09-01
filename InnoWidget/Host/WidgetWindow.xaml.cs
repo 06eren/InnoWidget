@@ -13,9 +13,9 @@ public partial class WidgetWindow : Window
         InitializeComponent();
         RootBorder.Background = _backgroundBrush;
         SetBackgroundOpacity(1.0);
-        // Ensure widgets stay on desktop (always on bottom)
-        Topmost = false;
-        ShowInTaskbar = false;
+        // Topmost ayarı dışarıdan yapılacak - constructor'da değiştirme
+        // Topmost = false;  // BU SATIRI KALDIRDIK
+        ShowInTaskbar = true;  // GEÇİCİ OLARAK - widget'ın görünür olduğundan emin olmak için
     }
 
     public void SetBackgroundOpacity(double opacity)
@@ -29,13 +29,16 @@ public partial class WidgetWindow : Window
     protected override void OnSourceInitialized(EventArgs e)
     {
         base.OnSourceInitialized(e);
+        // GEÇİCİ OLARAK KALDIRILDI - Widget'ın görünür olduğundan emin olmak için
         // Always on bottom: set window to be behind all others
+        /*
         var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
         if (hwnd != IntPtr.Zero)
         {
             var exStyle = NativeMethods.GetWindowLong(hwnd, NativeMethods.GWL_EXSTYLE);
             NativeMethods.SetWindowLong(hwnd, NativeMethods.GWL_EXSTYLE, exStyle | NativeMethods.WS_EX_NOACTIVATE);
         }
+        */
     }
 
     private void Root_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
